@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "856073811133",
+    "project_id": "sepextremeg",
+    "storage_bucket": "sepextremeg.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:856073811133:android:d54efb7149777b814cb3d4",
+        "android_client_info": {
+          "package_name": "com.example.sepextremeg"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "856073811133-v55kd4gu7llt56a5balkdcsrr4ibj21a.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.sepextremeg",
+            "certificate_hash": "fecc224cb38a6c0400ff684ae328833c0db48ef5"
+          }
+        },
+        {
+          "client_id": "856073811133-4dhquv6ilhe50doc3633j26dihqvqgt1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDccl9A2C5ULOogacmtIfYxNoNHkAU84J0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "856073811133-4dhquv6ilhe50doc3633j26dihqvqgt1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
