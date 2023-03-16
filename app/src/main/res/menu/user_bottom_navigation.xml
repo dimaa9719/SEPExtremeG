@@ -7,13 +7,13 @@
         android:title="Home" />
 
     <item
-        android:id="@+id/PeopleMenu"
+        android:id="@+id/InvoiceMenu"
         android:icon="@drawable/attendance_icon"
-        android:title="People" />
+        android:title="Invoice" />
 
     <item
-        android:id="@+id/SettingsMenu"
-        android:icon="@drawable/ic_baseline_settings_24"
-        android:title="Settings" />
+        android:id="@+id/ProfileMenu"
+        android:icon="@drawable/profile_icon"
+        android:title="Account" />
 
 </menu>

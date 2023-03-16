@@ -26,12 +26,12 @@ public class AdminDashboardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_admin_dashboard);
 
         //Assigning framelayout resource file to show appropriate fragment using address
-        frameLayout = (FrameLayout) findViewById(R.id.TeacherFragmentContainer);
+        frameLayout = (FrameLayout) findViewById(R.id.AdminFragmentContainer);
         //Assigining Bottomnavigaiton Menu
-        bottomNavigationView = (BottomNavigationView) findViewById(R.id.TeacherBottomNavigationView);
+        bottomNavigationView = (BottomNavigationView) findViewById(R.id.AdminBottomNavigationView);
         Menu menuNav = bottomNavigationView.getMenu();
         //Setting the default fragment as HomeFragment
-        getSupportFragmentManager().beginTransaction().replace(R.id.TeacherFragmentContainer, new CreateClassFragment()).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.AdminFragmentContainer, new CreateClassFragment()).commit();
         //Calling the bottoNavigationMethod when we click on any menu item
         bottomNavigationView.setOnNavigationItemSelectedListener(bottomNavigationMethod);
     }
@@ -50,18 +50,17 @@ public class AdminDashboardActivity extends AppCompatActivity {
                             fragment = new CreateClassFragment();
                             break;
 
-                        case R.id.AttendanceMenu:
+                        case R.id.PeopleMenu:
                             fragment=new AttendanceFragment();
                             break;
 
-                        case R.id.ProfileMenu:
+                        case R.id.SettingsMenu:
                             fragment = new ProfileFragment();
                             break;
 
-
                     }
                     //Sets the selected Fragment into the Framelayout
-                    getSupportFragmentManager().beginTransaction().replace(R.id.TeacherFragmentContainer, fragment).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.AdminFragmentContainer, fragment).commit();
                     return true;
                 }
             };

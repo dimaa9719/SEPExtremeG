@@ -7,14 +7,14 @@
     tools:context=".activity.AdminDashboardActivity">
 
     <FrameLayout
-        android:id="@+id/TeacherFragmentContainer"
+        android:id="@+id/AdminFragmentContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/TeacherBottomNavigationView"
+        android:layout_above="@id/AdminBottomNavigationView"
         />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/TeacherBottomNavigationView"
+        android:id="@+id/AdminBottomNavigationView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:menu="@menu/admin_bottom_navigation"
