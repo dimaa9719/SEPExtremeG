@@ -9,9 +9,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 
-import com.example.sepextremeg.Fragments.AttendanceFragment;
-import com.example.sepextremeg.Fragments.CreateClassFragment;
-import com.example.sepextremeg.Fragments.ProfileFragment;
+import com.example.sepextremeg.Fragments.AdminHomeFragment;
+import com.example.sepextremeg.Fragments.StaffFragment;
+import com.example.sepextremeg.Fragments.SettingsFragment;
 import com.example.sepextremeg.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -31,7 +31,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.AdminBottomNavigationView);
         Menu menuNav = bottomNavigationView.getMenu();
         //Setting the default fragment as HomeFragment
-        getSupportFragmentManager().beginTransaction().replace(R.id.AdminFragmentContainer, new CreateClassFragment()).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.AdminFragmentContainer, new AdminHomeFragment()).commit();
         //Calling the bottoNavigationMethod when we click on any menu item
         bottomNavigationView.setOnNavigationItemSelectedListener(bottomNavigationMethod);
     }
@@ -47,15 +47,15 @@ public class AdminDashboardActivity extends AppCompatActivity {
 
                         //Shows the Appropriate Fragment by using id as address
                         case R.id.HomeMenu:
-                            fragment = new CreateClassFragment();
+                            fragment = new AdminHomeFragment();
                             break;
 
-                        case R.id.PeopleMenu:
-                            fragment=new AttendanceFragment();
+                        case R.id.StaffMenu:
+                            fragment=new StaffFragment();
                             break;
 
                         case R.id.SettingsMenu:
-                            fragment = new ProfileFragment();
+                            fragment = new SettingsFragment();
                             break;
 
                     }

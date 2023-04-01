@@ -1,61 +1,135 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
     android:background="@drawable/back"
     tools:context=".activity.LoginActivity">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Please,select role and continue"
-        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:text="Welcome to ASMS Skyline University"
+        android:textColor="@color/white"
+        android:textSize="18sp"
         android:textStyle="bold"
-        android:textSize="25dp"
-        android:layout_above="@id/Spinner"
-        android:layout_margin="10dp"
-        android:textAlignment="center"/>
+        android:fontFamily="@font/gotham_ultra"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"/>
 
+    <TextView
+        android:id="@+id/tvEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:text="Email"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"/>
 
-    <Spinner
-        android:id="@+id/Spinner"
-        android:layout_width="149dp"
-        android:layout_height="40dp"
-        android:layout_centerInParent="true"
-        android:spinnerMode="dropdown"
-        android:background="@color/lightBlack" />
-
-    <LinearLayout
-        android:id="@+id/GoogleSignInBtn"
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/etEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerInParent="true"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"
-        android:orientation="horizontal"
-        android:background="@drawable/shape_signup"
-        android:padding="4dp"
-        android:gravity="center"
-        android:shadowColor="@android:color/transparent">
+        android:hint="Enter email here"
+        android:inputType="textEmailAddress"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"/>
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/google"
-            android:layout_marginStart="8dp"/>
+    <TextView
+        android:id="@+id/tvPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:text="Password"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="Sign in with Google"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:textSize="14sp"/>
-    </LinearLayout>
-</RelativeLayout>
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/etPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter pw here"
+        android:inputType="textPassword"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"/>
+
+    <Button
+        android:id="@+id/signInButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="Sign In"/>
+
+    <TextView
+        android:id="@+id/forgotPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="forgot password?"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"/>
+
+    <!--    <TextView-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Please,select role and continue"-->
+<!--        android:layout_centerInParent="true"-->
+<!--        android:textStyle="bold"-->
+<!--        android:textSize="25dp"-->
+<!--        android:layout_above="@id/Spinner"-->
+<!--        android:layout_margin="10dp"-->
+<!--        android:textAlignment="center"/>-->
+
+<!--    <Spinner-->
+<!--        android:id="@+id/Spinner"-->
+<!--        android:layout_width="149dp"-->
+<!--        android:layout_height="40dp"-->
+<!--        android:layout_centerInParent="true"-->
+<!--        android:spinnerMode="dropdown"-->
+<!--        android:background="@color/lightBlack" />-->
+
+<!--    <LinearLayout-->
+<!--        android:id="@+id/GoogleSignInBtn"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_alignParentBottom="true"-->
+<!--        android:layout_centerInParent="true"-->
+<!--        android:layout_marginLeft="10dp"-->
+<!--        android:layout_marginTop="0dp"-->
+<!--        android:layout_marginRight="10dp"-->
+<!--        android:layout_marginBottom="10dp"-->
+<!--        android:orientation="horizontal"-->
+<!--        android:background="@drawable/shape_signup"-->
+<!--        android:padding="4dp"-->
+<!--        android:gravity="center"-->
+<!--        android:shadowColor="@android:color/transparent">-->
+
+<!--        <ImageView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:src="@drawable/google"-->
+<!--            android:layout_marginStart="8dp"/>-->
+
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="8dp"-->
+<!--            android:text="Sign in with Google"-->
+<!--            android:textColor="@color/white"-->
+<!--            android:textStyle="bold"-->
+<!--            android:textSize="14sp"/>-->
+<!--    </LinearLayout>-->
+</LinearLayout>

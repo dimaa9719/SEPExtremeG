@@ -1,38 +1,36 @@
 package com.example.sepextremeg.activity;
 
+import static android.content.ContentValues.TAG;
+
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
-import android.widget.Spinner;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.sepextremeg.R;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthCredential;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.annotations.NotNull;
+import com.google.firebase.database.ValueEventListener;
 
-import java.util.HashMap;
+import java.util.Objects;
 
 public class LoginActivity extends Activity {
 
@@ -43,16 +41,15 @@ public class LoginActivity extends Activity {
     public static String My_ProfilePic = "My_ProfilePic";
     public static String My_Role = "My_Role";
 
-    GoogleSignInClient mSignInClient;
+//    GoogleSignInClient mSignInClient;
     FirebaseAuth firebaseAuth;
     ProgressDialog progressBar;
-    LinearLayout signInButton;
-    Spinner spinner;
+    Button signInButton;
+    TextView forgotPassword;
+    private TextInputEditText etEmail, etPassword;
 
-    String[] roles = {"Select role", "Admin", "Staff"};
     String userRole = "";
     SharedPreferences sharedPreferences;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,193 +65,118 @@ public class LoginActivity extends Activity {
         progressBar.setMessage("We are setting Everything for you...");
         progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 
-        spinner = (Spinner) findViewById(R.id.Spinner);
-        //Creating the ArrayAdapter instance having the country list
-        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, roles);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        //Setting the ArrayAdapter data on the Spinner
-        spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
-                userRole = roles[i];
-                Toast.makeText(getApplicationContext(), roles[i], Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-        signInButton = findViewById(R.id.GoogleSignInBtn);
-
+        etEmail = findViewById(R.id.etEmail);
+        etPassword = findViewById(R.id.etPassword);
+        signInButton = findViewById(R.id.signInButton);
+        forgotPassword = findViewById(R.id.forgotPassword);
 
         //Google Signin Options to get gmail and perform a gmail login
-        GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions
-                .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken("856073811133-4dhquv6ilhe50doc3633j26dihqvqgt1.apps.googleusercontent.com")
-                .requestEmail()
-                .build();
-
-        mSignInClient = GoogleSignIn.getClient(getApplicationContext(), googleSignInOptions);
+//        GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions
+//                .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+//                .requestIdToken("856073811133-4dhquv6ilhe50doc3633j26dihqvqgt1.apps.googleusercontent.com")
+//                .requestEmail()
+//                .build();
+//
+//        mSignInClient = GoogleSignIn.getClient(getApplicationContext(), googleSignInOptions);
 
         //Implementing OnClickListener to perform Login action
+
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                if (userRole.equals("Select role")){
-                    Toast.makeText(LoginActivity.this, "Please select user role", Toast.LENGTH_SHORT).show();
+                if (TextUtils.isEmpty(etEmail.getText().toString())) {
+                    Toast.makeText(LoginActivity.this, "Please enter email", Toast.LENGTH_SHORT).show();
+                } else if (TextUtils.isEmpty(etPassword.getText().toString())) {
+                    Toast.makeText(LoginActivity.this, "Please enter password", Toast.LENGTH_SHORT).show();
                 } else {
-                    //Showing all Gmails
-                    Intent intent = mSignInClient.getSignInIntent();
-                    startActivityForResult(intent, 100);
+
+                    String email = etEmail.getText().toString();
+                    String password = etPassword.getText().toString();
+
+                    System.out.println("email  " + email);
+                    System.out.println("pw  " + password);
+
+                    progressBar.show();
+
+                    firebaseAuth.signInWithEmailAndPassword(email, password)
+                            .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {
+                                        // Sign in success, update UI with the signed-in user's information
+                                        Log.d(TAG, "signInWithEmail:success");
+
+                                        FirebaseUser user = firebaseAuth.getCurrentUser();
+                                        DatabaseReference userNameRef = FirebaseDatabase.getInstance().getReference().child("AllUsers").child(user.getUid());
+                                        ValueEventListener eventListener = new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                                if (dataSnapshot.exists()) {
+                                                    progressBar.cancel();
+
+                                                    if (dataSnapshot.child("role").getValue().equals("Admin")) {
+                                                        //navigating to the main activity after user successfully registers
+                                                        saveDateToLocalDb(dataSnapshot.child("id").getValue().toString(),dataSnapshot.child("name").getValue().toString(), dataSnapshot.child("mail").getValue().toString(),
+                                                                dataSnapshot.child("profilepic").getValue().toString(), dataSnapshot.child("role").getValue().toString());
+
+                                                        Intent intent = new Intent(getApplicationContext(), AdminDashboardActivity.class);
+                                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                                        startActivity(intent);
+                                                    } else {
+                                                        //navigating to the main activity after user successfully registers
+                                                        saveDateToLocalDb(dataSnapshot.child("id").getValue().toString(),dataSnapshot.child("name").getValue().toString(), dataSnapshot.child("mail").getValue().toString(),
+                                                                dataSnapshot.child("profilepic").getValue().toString(), dataSnapshot.child("role").getValue().toString());
+
+                                                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                                        startActivity(intent);
+                                                    }
+
+                                                    Toast.makeText(LoginActivity.this, "Successfully logged in",
+                                                            Toast.LENGTH_SHORT).show();
+
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onCancelled(DatabaseError databaseError) {
+                                                Log.d(TAG, databaseError.getMessage()); //Don't ignore errors!
+                                            }
+                                        };
+                                        userNameRef.addValueEventListener(eventListener);
+                                    } else {
+                                        progressBar.cancel();
+                                        // If sign in fails, display a message to the user.
+                                        Log.w(TAG, "signInWithEmail:failure", task.getException());
+                                        Toast.makeText(LoginActivity.this, "Login failed!",
+                                                Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
                 }
             }
         });
 
-
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == 100) {
-            Log.d("loginggg", "done");
-            Task<GoogleSignInAccount> googleSignInAccountTask = GoogleSignIn
-                    .getSignedInAccountFromIntent(data);
-
-            if (googleSignInAccountTask.isSuccessful()) {
-                progressBar.show();
-                try {
-                    GoogleSignInAccount googleSignInAccount = googleSignInAccountTask.getResult(ApiException.class);
-                    Log.d("logingggg 1", "done");
-                    if (googleSignInAccount != null) {
-                        AuthCredential authCredential = GoogleAuthProvider
-                                .getCredential(googleSignInAccount.getIdToken(), null);
-
-                        firebaseAuth.signInWithCredential(authCredential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-
-                                    Log.d("log1", "done");
-
-                                    //Hashmap to store the userdetails and setting it to fireabse
-                                    HashMap<String, Object> user_details = new HashMap<>();
-
-                                    //Accessing the user details from gmail
-                                    String id = googleSignInAccount.getId().toString();
-                                    String name = googleSignInAccount.getDisplayName().toString();
-                                    String mail = googleSignInAccount.getEmail().toString();
-                                    String pic = googleSignInAccount.getPhotoUrl().toString();
-
-                                    //storing data in hashmap
-                                    user_details.put("id", id);
-                                    user_details.put("name", name);
-                                    user_details.put("mail", mail);
-                                    user_details.put("profilepic", pic);
-                                    user_details.put("role", userRole);
-
-                                    //Adding data to firebase
-                                    FirebaseDatabase.getInstance().getReference().child("AllUsers").child(id)
-                                            .updateChildren(user_details).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                @Override
-                                                public void onComplete(@NonNull @org.jetbrains.annotations.NotNull Task<Void> task) {
-                                                    if (task.isSuccessful()) {
-
-                                                        //Checking for user role and adding data to firebase
-                                                        if (userRole == "Admin") {
-                                                            FirebaseDatabase database = FirebaseDatabase.getInstance();
-                                                            DatabaseReference myRef = database.getReference().child("users").child("Admin");
-
-                                                            //Hashmap to store the userdetails and setting it to fireabase
-                                                            HashMap<String, Object> Admin_details = new HashMap<>();
-
-                                                            Admin_details.put("id", id);
-                                                            Admin_details.put("name", name);
-                                                            Admin_details.put("mail", mail);
-                                                            Admin_details.put("profilepic", pic);
-                                                            Admin_details.put("role", userRole);
-
-                                                            saveDateToLocalDb(id, name, mail, pic, userRole);
-
-                                                            Log.d("log2", "done");
-
-                                                            //updating the user details in firebase
-                                                            myRef.child(id).updateChildren(Admin_details).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                                @Override
-                                                                public void onComplete(@NonNull @NotNull Task<Void> task) {
-                                                                    if (task.isSuccessful()) {
-                                                                        progressBar.cancel();
-
-                                                                        Log.d("log3", "done");
-
-                                                                        //navigating to the main activity after user successfully registers
-                                                                        Intent intent = new Intent(getApplicationContext(), AdminDashboardActivity.class);
-                                                                        //Clears older activities and tasks
-                                                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                                                        startActivity(intent);
-                                                                    }
-                                                                }
-                                                            });
-
-
-                                                        } else {
-
-                                                            FirebaseDatabase database = FirebaseDatabase.getInstance();
-                                                            DatabaseReference myRef = database.getReference().child("users").child("Staff");
-
-                                                            //Hashmap to store the userdetails and setting it to fireabse
-                                                            HashMap<String, Object> Staff_details = new HashMap<>();
-
-
-                                                            Staff_details.put("id", id);
-                                                            Staff_details.put("name", name);
-                                                            Staff_details.put("mail", mail);
-                                                            Staff_details.put("profilepic", pic);
-                                                            Staff_details.put("role", userRole);
-
-                                                            Staff_details.put("totalDays", "0");
-                                                            Staff_details.put("attendance", "0");
-
-                                                            saveDateToLocalDb(id, name, mail, pic, userRole);
-
-                                                            //updating the user details in firebase
-                                                            myRef.child(id).updateChildren(Staff_details).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                                @Override
-                                                                public void onComplete(@NonNull @NotNull Task<Void> task) {
-                                                                    if (task.isSuccessful()) {
-                                                                        progressBar.cancel();
-
-                                                                        //navigating to the main activity after user successfully registers
-                                                                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                                                        //Clears older activities and tasks
-                                                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                                                        startActivity(intent);
-                                                                    }
-                                                                }
-                                                            });
-
-                                                        }
-
-
-                                                    }
-                                                }
-                                            });
+        forgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String email = etEmail.getText().toString();
+                if (TextUtils.isEmpty(email)) {
+                    Toast.makeText(LoginActivity.this, "Please enter email", Toast.LENGTH_SHORT).show();
+                } else {
+                    firebaseAuth.sendPasswordResetEmail(email)
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        Log.d(TAG, "Email sent.");
+                                        Toast.makeText(LoginActivity.this, "Email has been sent to your email.", Toast.LENGTH_SHORT).show();
+                                    }
                                 }
-                            }
-                        });
-                    }
-
-                } catch (ApiException e) {
-                    e.printStackTrace();
+                            });
                 }
             }
-        }
-
+        });
     }
 
     private void saveDateToLocalDb(String id, String name, String email, String profilepic, String userrole) {
@@ -275,8 +197,6 @@ public class LoginActivity extends Activity {
         // Once the changes have been made, we need to commit to apply those changes made,
         // otherwise, it will throw an error
         myEdit.commit();
-
-
     }
 
 }

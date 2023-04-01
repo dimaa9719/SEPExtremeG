@@ -7,9 +7,9 @@
         android:title="Home" />
 
     <item
-        android:id="@+id/PeopleMenu"
-        android:icon="@drawable/attendance_icon"
-        android:title="People" />
+        android:id="@+id/StaffMenu"
+        android:icon="@drawable/ic_baseline_people_24"
+        android:title="Staff" />
 
     <item
         android:id="@+id/SettingsMenu"
