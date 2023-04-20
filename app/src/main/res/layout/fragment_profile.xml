@@ -45,6 +45,12 @@
         android:layout_margin="10dp"
         android:text="Add Profile Details" />
 
+        <Button
+            android:id="@+id/editPublicationsBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="Add Publication Details" />
     <Button
         android:id="@+id/resetPasswordBtn"
         android:layout_width="match_parent"

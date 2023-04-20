@@ -98,11 +98,11 @@ public class AddProfileDetailsActivity extends AppCompatActivity {
         etAddress = findViewById(R.id.etAddress);
         etHigherQualification = findViewById(R.id.etHigherQualification);
         etWorkExp = findViewById(R.id.etWorkExp);
-        etDatePub = findViewById(R.id.etDatePub);
+//        etDatePub = findViewById(R.id.etDatePub);
         etJobTitle = findViewById(R.id.etJobTitle);
         etFaculty = findViewById(R.id.etFaculty);
-        tvFileName = findViewById(R.id.tvFileName);
-        llUploadFile = findViewById(R.id.llUploadFile);
+//        tvFileName = findViewById(R.id.tvFileName);
+//        llUploadFile = findViewById(R.id.llUploadFile);
         addDetailsBtn = findViewById(R.id.addDetailsBtn);
         rlImageUpload = findViewById(R.id.rlImageUpload);
         profilePic = findViewById(R.id.profilePic);
@@ -249,12 +249,6 @@ public class AddProfileDetailsActivity extends AppCompatActivity {
         profile.put("workExp", String.valueOf(etWorkExp.getText()));
         profile.put("facultyName", String.valueOf(etFaculty.getText()));
         profile.put("jobTitle", String.valueOf(etJobTitle.getText()));
-        profile.put("datePublished", String.valueOf(etDatePub.getText()));
-        if (fileUriAccessToken != null && !fileUriAccessToken.equals("")){
-            profile.put("publication", fileUriAccessToken);
-        } else {
-            profile.put("publication", String.valueOf(tvFileName.getText()));
-        }
 
         mDatabase.child("profile").child(userID).updateChildren(profile)
                 .addOnCompleteListener(new OnCompleteListener() {
@@ -265,7 +259,6 @@ public class AddProfileDetailsActivity extends AppCompatActivity {
 
                             etName.setText("");
                             etDob.setText("");
-                            etDatePub.setText("");
                             etAddress.setText("");
                             etNic.setText("");
                             etMobile.setText("");
@@ -273,7 +266,6 @@ public class AddProfileDetailsActivity extends AppCompatActivity {
                             etHigherQualification.setText("");
                             etFaculty.setText("");
                             etJobTitle.setText("");
-                            tvFileName.setText("");
 
                             Toast.makeText(AddProfileDetailsActivity.this,"Successfully Updated",Toast.LENGTH_SHORT).show();
 
@@ -307,8 +299,6 @@ public class AddProfileDetailsActivity extends AppCompatActivity {
                         etHigherQualification.setText(profile.getQualification());
                         etFaculty.setText(profile.getFacultyName());
                         etJobTitle.setText(profile.getJobTitle());
-                        etDatePub.setText(profile.getDatePublished());
-                        tvFileName.setText(profile.getPublication());
                     }
                 }
 
@@ -354,8 +344,6 @@ public class AddProfileDetailsActivity extends AppCompatActivity {
         profile.setWorkExp(String.valueOf(etWorkExp.getText()));
         profile.setFacultyName(String.valueOf(etFaculty.getText()));
         profile.setJobTitle(String.valueOf(etJobTitle.getText()));
-        profile.setPublication(fileUriAccessToken);
-        profile.setDatePublished(String.valueOf(etDatePub.getText()));
 
         mDatabase.child("profile").child(userID).setValue(profile)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -365,7 +353,6 @@ public class AddProfileDetailsActivity extends AppCompatActivity {
 
                             etName.setText("");
                             etDob.setText("");
-                            etDatePub.setText("");
                             etAddress.setText("");
                             etNic.setText("");
                             etMobile.setText("");
@@ -373,7 +360,6 @@ public class AddProfileDetailsActivity extends AppCompatActivity {
                             etHigherQualification.setText("");
                             etFaculty.setText("");
                             etJobTitle.setText("");
-                            tvFileName.setText("");
                             profilePic.setImageURI(null);
 
                             Toast.makeText(AddProfileDetailsActivity.this,"Successfully Added",Toast.LENGTH_SHORT).show();
@@ -440,7 +426,7 @@ public class AddProfileDetailsActivity extends AppCompatActivity {
 
                     tvFileName.setText(selectedFileName);
 
-                    updateFileToStorage();
+//                    updateFileToStorage();
                 }
             case 1000:
                 if (resultCode == RESULT_OK) {

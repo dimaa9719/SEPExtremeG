@@ -29,6 +29,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.sepextremeg.R;
 import com.example.sepextremeg.activity.AddProfileDetailsActivity;
+import com.example.sepextremeg.activity.AddPublicationDetailsActivity;
 import com.example.sepextremeg.activity.LoginActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -52,7 +53,7 @@ public class ProfileFragment extends Fragment {
 
     CircleImageView imageView;
     TextView userName;
-    Button signOutBtn, editProfileBtn, resetPasswordBtn, updatePwButton, deleteAccBtn;
+    Button signOutBtn, editProfileBtn, editPublicationsBtn, resetPasswordBtn, updatePwButton, deleteAccBtn;
     LinearLayout llActions, llPasswordReset;
     EditText etNewPassword;
     public static boolean isEdit = false;
@@ -75,6 +76,7 @@ public class ProfileFragment extends Fragment {
         etNewPassword = view.findViewById(R.id.etNewPassword);
         updatePwButton = view.findViewById(R.id.updatePwButton);
         deleteAccBtn = view.findViewById(R.id.deleteAccBtn);
+        editPublicationsBtn = view.findViewById(R.id.editPublicationsBtn);
 
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -98,6 +100,16 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getContext(), AddProfileDetailsActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
+        });
+
+        //add my profile details
+        editPublicationsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), AddPublicationDetailsActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
             }
@@ -217,6 +229,26 @@ public class ProfileFragment extends Fragment {
                 }
             };
             userNameRef.addListenerForSingleValueEvent(eventListener);
+
+            DatabaseReference reference = rootRef.child("Publications").child(userID);
+            ValueEventListener listener = new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if(dataSnapshot.exists()) {
+                        isEdit = true;
+                        editPublicationsBtn.setText("Edit Publication Details");
+                    } else {
+                        isEdit = false;
+                        editPublicationsBtn.setText("Add Publication Details");
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    Log.d(TAG, databaseError.getMessage()); //Don't ignore errors!
+                }
+            };
+            reference.addListenerForSingleValueEvent(listener);
         }
 
     }
