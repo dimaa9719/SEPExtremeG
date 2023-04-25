@@ -4,6 +4,7 @@ import static android.content.ContentValues.TAG;
 import static com.example.sepextremeg.activity.LoginActivity.AUTHENTICATION;
 import static com.example.sepextremeg.activity.LoginActivity.My_Name;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,10 +22,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sepextremeg.R;
+import com.example.sepextremeg.adapters.HomeUsersGridAdapter;
 import com.example.sepextremeg.adapters.HomeVerticalAdapter;
 import com.example.sepextremeg.adapters.SearchStaffAdapter;
 import com.example.sepextremeg.model.Category;
 import com.example.sepextremeg.model.Profile;
+import com.example.sepextremeg.model.Qualifications;
 import com.example.sepextremeg.model.StaffModel;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -41,11 +45,13 @@ public class AdminHomeFragment extends Fragment {
 
     SearchStaffAdapter adapter;
     RecyclerView search_results_recycle_view, home_recycle_view;
+    GridView idGvUrses;
     SearchView searchView;
     TextView tvNoResult;
+    ProgressDialog progressDialog;
     ShimmerFrameLayout shimmerFrameLayout;
     DatabaseReference databaseReference;
-    ArrayList<Category> categoryArrayList, newCategoryList;
+    ArrayList<StaffModel> staffModelArrayList = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -55,12 +61,13 @@ public class AdminHomeFragment extends Fragment {
 
         // assigning the Recyclerview to display all created classes
         search_results_recycle_view = mView.findViewById(R.id.search_results_recycle_view);
-        home_recycle_view = mView.findViewById(R.id.home_recycle_view);
+        idGvUrses = mView.findViewById(R.id.idGvUrses);
+//        home_recycle_view = mView.findViewById(R.id.home_recycle_view);
         search_results_recycle_view.setLayoutManager(new LinearLayoutManager(getContext()));
         search_results_recycle_view.hasFixedSize();
 
-        home_recycle_view.setLayoutManager(new LinearLayoutManager(getContext()));
-        home_recycle_view.hasFixedSize();
+//        home_recycle_view.setLayoutManager(new LinearLayoutManager(getContext()));
+//        home_recycle_view.hasFixedSize();
 
         //database path
         databaseReference = FirebaseDatabase.getInstance().getReference();
@@ -119,7 +126,6 @@ public class AdminHomeFragment extends Fragment {
             }
         });
 
-        categoryArrayList = new ArrayList<>();
         loadHomeCategories();
 
         return mView;
@@ -127,60 +133,34 @@ public class AdminHomeFragment extends Fragment {
 
     private void loadHomeCategories() {
         try {
-
             System.out.println("loadingggggggggggggg");
-            DatabaseReference userNameRef = FirebaseDatabase.getInstance().getReference().child("users");
+            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("users").child("Staff");
+            progressDialog = new ProgressDialog(getContext());
+
+            progressDialog.setMessage("Loading Data...");
+
+            progressDialog.show();
+
             ValueEventListener eventListener = new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    if (dataSnapshot.exists()) {
-                        String id = null, name, role, image;
-                        ArrayList<StaffModel> staffModelArrayList = new ArrayList<>();
-
-                        for (DataSnapshot snapshot : dataSnapshot.child("Admin").getChildren()) {
-                            id = (String)
-                                    snapshot.child("id").getValue();
-                            role = (String)
-                                    snapshot.child("role").getValue();
-                            name = (String)
-                                    snapshot.child("name").getValue();
-                            image = (String)
-                                    snapshot.child("profilePic").getValue();
-
-                            staffModelArrayList.add(new StaffModel(id, name, role, image));
-                        }
-
-                        for (DataSnapshot dataSnapshot1 : dataSnapshot.child("Staff").getChildren()) {
-                            id = (String)
-                                    dataSnapshot1.child("id").getValue();
-                            role = (String)
-                                    dataSnapshot1.child("role").getValue();
-                            name = (String)
-                                    dataSnapshot1.child("name").getValue();
-                            image = (String)
-                                    dataSnapshot1.child("profilePic").getValue();
-
-                            staffModelArrayList.add(new StaffModel(id, name, role, image));
-                        }
-
-                        categoryArrayList.add(new Category(id, dataSnapshot.getKey(), staffModelArrayList));
-
-                        System.out.println("Employee List(org) " + categoryArrayList.size());
-
-                        HomeVerticalAdapter adapter = new HomeVerticalAdapter(getActivity(), categoryArrayList);
-                        home_recycle_view.setAdapter(adapter);
-                        ((HomeVerticalAdapter) home_recycle_view.getAdapter()).notifyDataSetChanged();
-
-                        System.out.println("set adapterrr");
+                    for(DataSnapshot ds : dataSnapshot.getChildren()) {
+                        staffModelArrayList.add(ds.getValue(StaffModel.class));
+                        progressDialog.dismiss();
                     }
+
+                    HomeUsersGridAdapter adapter = new HomeUsersGridAdapter(getContext(), staffModelArrayList);
+                    idGvUrses.setAdapter(adapter);
+                    System.out.println("pub size------- " + staffModelArrayList.size());
                 }
 
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
                     Log.d(TAG, databaseError.getMessage()); //Don't ignore errors!
+                    progressDialog.dismiss();
                 }
             };
-            userNameRef.addValueEventListener(eventListener);
+            databaseReference.addValueEventListener(eventListener);
 
             shimmerFrameLayout.stopShimmer();
             shimmerFrameLayout.hideShimmer();

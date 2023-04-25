@@ -74,16 +74,13 @@ public class AddProfileDetailsActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     private TextInputEditText etName, etDob, etNic, etMobile, etAddress, etHigherQualification,
             etWorkExp, etDatePub, etFaculty, etJobTitle;
-    private TextView tvFileName;
-    private LinearLayout llUploadFile;
     private RelativeLayout rlImageUpload;
     private CircleImageView profilePic;
     private Button addDetailsBtn;
     private ImageButton btnCam;
     private ProgressDialog dialog;
-    String userID, fileUrl, ImageURIacessToken, selectedImgName, selectedImgPath, fileUriAccessToken, selectedFileName;
-    Uri selectedImageUri, selectedFileUri;
-    private final static int PICK_FILE = 1212;
+    String userID, ImageURIacessToken, selectedImgName, selectedImgPath;
+    Uri selectedImageUri;
     private final int GALLERY_RE_CODE = 1000;
 
     @Override
@@ -101,8 +98,6 @@ public class AddProfileDetailsActivity extends AppCompatActivity {
 //        etDatePub = findViewById(R.id.etDatePub);
         etJobTitle = findViewById(R.id.etJobTitle);
         etFaculty = findViewById(R.id.etFaculty);
-//        tvFileName = findViewById(R.id.tvFileName);
-//        llUploadFile = findViewById(R.id.llUploadFile);
         addDetailsBtn = findViewById(R.id.addDetailsBtn);
         rlImageUpload = findViewById(R.id.rlImageUpload);
         profilePic = findViewById(R.id.profilePic);
@@ -114,16 +109,6 @@ public class AddProfileDetailsActivity extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences(AUTHENTICATION, MODE_PRIVATE);
         userID = sharedPreferences.getString(My_ID, "");
-
-        llUploadFile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent();
-                intent.setType("application/pdf");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent, "Select Pdf"), PICK_FILE);
-            }
-        });
 
        if (isEdit){
            readData();
@@ -410,24 +395,6 @@ public class AddProfileDetailsActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
-            case 1212:
-                if (resultCode == RESULT_OK) {
-                    // Get the Uri of the selected file
-                    selectedFileUri = data.getData();
-
-                    File file = null;
-                    try {
-                        file = readContentToFile(selectedFileUri);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    selectedFileName = file.getName();
-                    System.out.println("file name------- " + selectedFileName);
-
-                    tvFileName.setText(selectedFileName);
-
-//                    updateFileToStorage();
-                }
             case 1000:
                 if (resultCode == RESULT_OK) {
                     // Get the Image from data
@@ -544,39 +511,6 @@ public class AddProfileDetailsActivity extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Toast.makeText(getApplicationContext(), "Image Not Updated", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    private void updateFileToStorage() {
-
-        StorageReference fileRef = storageReference.child(userID).child(selectedFileName);
-
-        UploadTask uploadTask = fileRef.putFile(selectedFileUri);
-        uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        fileUriAccessToken = uri.toString();
-                        System.out.println("file uri-- " + fileUriAccessToken);
-
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getApplicationContext(), "URI get Failed", Toast.LENGTH_SHORT).show();
-                    }
-
-                });
-                Toast.makeText(getApplicationContext(), "File is Uploaded", Toast.LENGTH_SHORT).show();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(getApplicationContext(), "File Not Uploaded", Toast.LENGTH_SHORT).show();
-
             }
         });
     }

@@ -22,6 +22,7 @@ public class AddedInfoRecyclerViewAdapter extends RecyclerView.Adapter<AddedInfo
     private final Context mContext;
     private final ArrayList<Publications> bulkList;
     private boolean isEditable;
+    private String publicationId;
 
     public AddedInfoRecyclerViewAdapter(Context activity, ArrayList<Publications> arrayList) {
         this.mContext = activity;
@@ -52,9 +53,30 @@ public class AddedInfoRecyclerViewAdapter extends RecyclerView.Adapter<AddedInfo
 
         holder.tvResult.setText("Citation : " + sb);
 
-//        holder.tvEdit.setOnClickListener(view -> ((AddPublicationDetailsActivity)mContext).editDetails(position));
+        holder.tvEdit.setOnClickListener(new View.OnClickListener() {
+                                             @Override
+                                             public void onClick(View view) {
+                                                 publicationId = bulkList.get(position).getPublicationId();
+                                                 ((AddPublicationDetailsActivity) mContext).editDetails(position, bulkList, publicationId);
+                                             }
+                                         }
 
-        holder.tvDelete.setOnClickListener(view -> removeAt(position));
+        );
+
+        holder.tvDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                publicationId = bulkList.get(position).getPublicationId();
+                removeAt(position, publicationId);
+            }
+        });
+
+        holder.tvDownload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((AddPublicationDetailsActivity) mContext).downloadMyPublication(position, bulkList);
+            }
+        });
     }
 
     @Override
@@ -63,13 +85,13 @@ public class AddedInfoRecyclerViewAdapter extends RecyclerView.Adapter<AddedInfo
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        private final TextView tvResult, tvPrice, tvLogo, tvEdit, tvDelete;
+        private final TextView tvResult, tvDownload, tvLogo, tvEdit, tvDelete;
         private final LinearLayout removeLayout, editLayout;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvResult = itemView.findViewById(R.id.tvResult);
-            tvPrice = itemView.findViewById(R.id.tvPrice);
+            tvDownload = itemView.findViewById(R.id.tvDownload);
             tvLogo = itemView.findViewById(R.id.tvLogo);
             editLayout = itemView.findViewById(R.id.editLayout);
             removeLayout = itemView.findViewById(R.id.removeLayout);
@@ -78,8 +100,8 @@ public class AddedInfoRecyclerViewAdapter extends RecyclerView.Adapter<AddedInfo
         }
     }
 
-    public void removeAt(int position) {
-//        ((AddPublicationDetailsActivity)mContext).removeItem(position);
+    public void removeAt(int position, String publicationId) {
+        ((AddPublicationDetailsActivity) mContext).removeItem(publicationId);
         notifyItemRemoved(position);
         notifyItemRangeChanged(position, bulkList.size());
     }

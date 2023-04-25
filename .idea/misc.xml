@@ -15,12 +15,15 @@
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/SEPExtremeG/app/src/main/res/menu/admin_bottom_navigation.xml" value="0.17552083333333332" />
         <entry key="..\:/Users/ASUS/Documents/GitHub/SEPExtremeG/app/src/main/res/drawable/border_black_round.xml" value="0.184" />
         <entry key="..\:/Users/ASUS/Documents/GitHub/SEPExtremeG/app/src/main/res/drawable/border_white_round.xml" value="0.184" />
+        <entry key="..\:/Users/ASUS/Documents/GitHub/SEPExtremeG/app/src/main/res/drawable/gradient_black_transparent_left_to_right.xml" value="0.17" />
         <entry key="..\:/Users/ASUS/Documents/GitHub/SEPExtremeG/app/src/main/res/drawable/white_button_blank.xml" value="0.184" />
         <entry key="..\:/Users/ASUS/Documents/GitHub/SEPExtremeG/app/src/main/res/layout/activity_add_profile_details.xml" value="0.22" />
         <entry key="..\:/Users/ASUS/Documents/GitHub/SEPExtremeG/app/src/main/res/layout/activity_add_publication_details.xml" value="0.22" />
+        <entry key="..\:/Users/ASUS/Documents/GitHub/SEPExtremeG/app/src/main/res/layout/activity_add_qualification_details.xml" value="0.17552083333333332" />
         <entry key="..\:/Users/ASUS/Documents/GitHub/SEPExtremeG/app/src/main/res/layout/activity_admin_dashboard.xml" value="0.17552083333333332" />
         <entry key="..\:/Users/ASUS/Documents/GitHub/SEPExtremeG/app/src/main/res/layout/activity_login.xml" value="0.17552083333333332" />
         <entry key="..\:/Users/ASUS/Documents/GitHub/SEPExtremeG/app/src/main/res/layout/activity_main.xml" value="0.17552083333333332" />
+        <entry key="..\:/Users/ASUS/Documents/GitHub/SEPExtremeG/app/src/main/res/layout/activity_staff_member.xml" value="0.22" />
         <entry key="..\:/Users/ASUS/Documents/GitHub/SEPExtremeG/app/src/main/res/layout/categories_list_view.xml" value="0.17552083333333332" />
         <entry key="..\:/Users/ASUS/Documents/GitHub/SEPExtremeG/app/src/main/res/layout/fragment_admin_home.xml" value="0.22" />
         <entry key="..\:/Users/ASUS/Documents/GitHub/SEPExtremeG/app/src/main/res/layout/fragment_attendance.xml" value="0.17552083333333332" />
@@ -34,6 +37,7 @@
         <entry key="..\:/Users/ASUS/Documents/GitHub/SEPExtremeG/app/src/main/res/layout/item_added_info.xml" value="0.17447916666666666" />
         <entry key="..\:/Users/ASUS/Documents/GitHub/SEPExtremeG/app/src/main/res/layout/item_appointment_cc.xml" value="0.17552083333333332" />
         <entry key="..\:/Users/ASUS/Documents/GitHub/SEPExtremeG/app/src/main/res/layout/item_home.xml" value="0.3333333333333333" />
+        <entry key="..\:/Users/ASUS/Documents/GitHub/SEPExtremeG/app/src/main/res/layout/item_qualification_added_info.xml" value="0.17552083333333332" />
         <entry key="..\:/Users/ASUS/Documents/GitHub/SEPExtremeG/app/src/main/res/layout/item_search.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/ASUS/Documents/GitHub/SEPExtremeG/app/src/main/res/layout/item_staff_mem.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/ASUS/Documents/GitHub/SEPExtremeG/app/src/main/res/menu/admin_bottom_navigation.xml" value="0.17552083333333332" />

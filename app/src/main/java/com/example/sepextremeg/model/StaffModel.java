@@ -9,13 +9,8 @@ public class StaffModel {
     String password;
     String role;
 
-    public StaffModel(String id, String name, String email, String proUrl, String password, String role) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.proUrl = proUrl;
-        this.password = password;
-        this.role = role;
+    public StaffModel() {
+
     }
 
     public StaffModel(String id, String role, String name, String proUrl) {
@@ -57,5 +52,11 @@ public class StaffModel {
         this.proUrl = proUrl;
     }
 
+    public String getEmail() {
+        return email;
+    }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
 }

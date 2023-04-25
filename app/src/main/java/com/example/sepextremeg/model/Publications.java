@@ -1,7 +1,7 @@
 package com.example.sepextremeg.model;
 
 public class Publications {
-    String isbnNumber;
+    String publicationId;
     String pubTitle;
     String pubType;
     String AuthorName;
@@ -13,7 +13,7 @@ public class Publications {
 
     public Publications(String isbnNumber, String pubTitle, String pubType, String authorName,
                         String organisation, String language, String citynCountry, String yearPublished) {
-        this.isbnNumber = isbnNumber;
+        this.publicationId = isbnNumber;
         this.pubTitle = pubTitle;
         this.pubType = pubType;
         AuthorName = authorName;
@@ -27,12 +27,12 @@ public class Publications {
 
     }
 
-    public String getIsbnNumber() {
-        return isbnNumber;
+    public String getPublicationId() {
+        return publicationId;
     }
 
-    public void setIsbnNumber(String isbnNumber) {
-        this.isbnNumber = isbnNumber;
+    public void setPublicationId(String publicationId) {
+        this.publicationId = publicationId;
     }
 
     public String getPubTitle() {

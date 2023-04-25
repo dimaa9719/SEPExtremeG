@@ -48,13 +48,6 @@
         android:text="Add Salary Details" />
 
     <Button
-        android:id="@+id/viewPublicationsBtn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:text="View Publications" />
-
-    <Button
         android:id="@+id/SignOutBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

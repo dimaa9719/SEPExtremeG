@@ -30,6 +30,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.sepextremeg.R;
 import com.example.sepextremeg.activity.AddProfileDetailsActivity;
 import com.example.sepextremeg.activity.AddPublicationDetailsActivity;
+import com.example.sepextremeg.activity.AddQualificationDetailsActivity;
 import com.example.sepextremeg.activity.LoginActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -53,7 +54,8 @@ public class ProfileFragment extends Fragment {
 
     CircleImageView imageView;
     TextView userName;
-    Button signOutBtn, editProfileBtn, editPublicationsBtn, resetPasswordBtn, updatePwButton, deleteAccBtn;
+    Button signOutBtn, editProfileBtn, editPublicationsBtn,editQualificationBtn,
+            resetPasswordBtn, updatePwButton, deleteAccBtn;
     LinearLayout llActions, llPasswordReset;
     EditText etNewPassword;
     public static boolean isEdit = false;
@@ -77,6 +79,7 @@ public class ProfileFragment extends Fragment {
         updatePwButton = view.findViewById(R.id.updatePwButton);
         deleteAccBtn = view.findViewById(R.id.deleteAccBtn);
         editPublicationsBtn = view.findViewById(R.id.editPublicationsBtn);
+        editQualificationBtn = view.findViewById(R.id.editQualificationBtn);
 
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -105,11 +108,21 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        //add my profile details
+        //add my publication details
         editPublicationsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getContext(), AddPublicationDetailsActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
+        });
+
+        //add my qualification details
+        editQualificationBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), AddQualificationDetailsActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
             }
@@ -236,6 +249,7 @@ public class ProfileFragment extends Fragment {
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if(dataSnapshot.exists()) {
                         isEdit = true;
+                        System.out.println("111");
                         editPublicationsBtn.setText("Edit Publication Details");
                     } else {
                         isEdit = false;
@@ -249,6 +263,26 @@ public class ProfileFragment extends Fragment {
                 }
             };
             reference.addListenerForSingleValueEvent(listener);
+
+            DatabaseReference qualiRef = rootRef.child("Qualifications").child(userID);
+            ValueEventListener qualiListener = new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if(dataSnapshot.exists()) {
+                        isEdit = true;
+                        editQualificationBtn.setText("Edit Qualification Details");
+                    } else {
+                        isEdit = false;
+                        editQualificationBtn.setText("Add Qualification Details");
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    Log.d(TAG, databaseError.getMessage()); //Don't ignore errors!
+                }
+            };
+            qualiRef.addListenerForSingleValueEvent(qualiListener);
         }
 
     }
