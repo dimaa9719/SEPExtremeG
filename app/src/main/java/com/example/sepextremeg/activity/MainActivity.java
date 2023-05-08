@@ -9,9 +9,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 
-import com.example.sepextremeg.Fragments.AdminHomeFragment;
-import com.example.sepextremeg.Fragments.InvoiceFragment;
-import com.example.sepextremeg.Fragments.StaffFragment;
 import com.example.sepextremeg.Fragments.ProfileFragment;
 import com.example.sepextremeg.Fragments.UserHomeFragment;
 import com.example.sepextremeg.R;
@@ -36,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.TeacherFragmentContainer, new UserHomeFragment()).commit();
         //Calling the bottoNavigationMethod when we click on any menu item
         bottomNavigationView.setOnNavigationItemSelectedListener(bottomNavigationMethod);
+
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener bottomNavigationMethod =
@@ -50,10 +48,6 @@ public class MainActivity extends AppCompatActivity {
                         //Shows the Appropriate Fragment by using id as address
                         case R.id.HomeMenu:
                             fragment = new UserHomeFragment();
-                            break;
-
-                        case R.id.InvoiceMenu:
-                            fragment=new InvoiceFragment();
                             break;
 
                         case R.id.ProfileMenu:

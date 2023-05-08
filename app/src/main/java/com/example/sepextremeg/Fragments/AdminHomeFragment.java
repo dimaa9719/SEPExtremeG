@@ -40,6 +40,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class AdminHomeFragment extends Fragment {
 
@@ -149,7 +150,7 @@ public class AdminHomeFragment extends Fragment {
                         progressDialog.dismiss();
                     }
 
-                    HomeUsersGridAdapter adapter = new HomeUsersGridAdapter(getContext(), staffModelArrayList);
+                    HomeUsersGridAdapter adapter = new HomeUsersGridAdapter(Objects.requireNonNull(getContext()), staffModelArrayList);
                     idGvUrses.setAdapter(adapter);
                     System.out.println("pub size------- " + staffModelArrayList.size());
                 }

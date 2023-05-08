@@ -292,11 +292,22 @@ public class ProfileFragment extends Fragment {
         // Reference for Firebase.
         DatabaseReference dbref= FirebaseDatabase.getInstance().getReference().child("AllUsers");
         DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference().child("users");
+
+        DatabaseReference dbrefProfile= FirebaseDatabase.getInstance().getReference().child("profile");
+        DatabaseReference dbrefQualification= FirebaseDatabase.getInstance().getReference().child("Qualifications");
+        DatabaseReference dbrefPublications= FirebaseDatabase.getInstance().getReference().child("Publications");
+        DatabaseReference dbrefSalaryScale= FirebaseDatabase.getInstance().getReference().child("SalaryScale");
+
         // we are use add listerner
         // for event listener method
         // which is called with query.
         Query query=dbref.child(id);
         Query query1=databaseReference.child(id);
+
+        Query query5=dbrefProfile.child(id);
+        Query query2=dbrefQualification.child(id);
+        Query query3=dbrefPublications.child(id);
+        Query query4=dbrefSalaryScale.child(id);
 
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -312,6 +323,58 @@ public class ProfileFragment extends Fragment {
         });
 
         query1.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                // remove the value at reference
+                dataSnapshot.getRef().removeValue();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        query2.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                // remove the value at reference
+                dataSnapshot.getRef().removeValue();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        query3.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                // remove the value at reference
+                dataSnapshot.getRef().removeValue();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        query4.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                // remove the value at reference
+                dataSnapshot.getRef().removeValue();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        query5.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 // remove the value at reference

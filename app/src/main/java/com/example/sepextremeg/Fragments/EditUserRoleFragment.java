@@ -3,6 +3,7 @@ package com.example.sepextremeg.Fragments;
 import static com.example.sepextremeg.Fragments.StaffFragment.recyclerView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,8 +17,10 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.sepextremeg.R;
+import com.example.sepextremeg.activity.AddMemberSalaryScaleActivity;
 import com.example.sepextremeg.activity.AddProfileDetailsActivity;
 import com.example.sepextremeg.activity.CreateUserActivity;
+import com.example.sepextremeg.activity.StaffMemberActivity;
 import com.example.sepextremeg.adapters.StaffMemberRecycleViewAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -88,6 +91,11 @@ public class EditUserRoleFragment extends androidx.fragment.app.DialogFragment {
 
                                         Toast.makeText(requireActivity(),"User role updated",Toast.LENGTH_SHORT).show();
 
+                                        Intent intent = new Intent(getContext(), AddMemberSalaryScaleActivity.class);
+                                        intent.putExtra("MemId", itemId);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        startActivity(intent);
+
                                     }else {
                                         Toast.makeText(requireActivity(),"Failed to update",Toast.LENGTH_SHORT).show();
 
@@ -109,6 +117,18 @@ public class EditUserRoleFragment extends androidx.fragment.app.DialogFragment {
                                 }
                             });
 
+                    mDatabase.child("profile").child(itemId).child("jobTitle").setValue(userRole)
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@androidx.annotation.NonNull Task<Void> task) {
+                                    if (task.isSuccessful()){
+                                        //suceess
+                                    }else {
+                                        //failed
+                                    }
+
+                                }
+                            });
                 }
             }
         });

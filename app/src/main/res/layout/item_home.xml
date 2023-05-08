@@ -22,12 +22,13 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/emp_image"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_marginTop="16dp"
-                app:srcCompat="@drawable/default_pic" />
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/ProfileImageView"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_margin="30dp"
+                android:background="@color/white"
+                android:src="@drawable/profile_icon" />
 
             <TextView
                 android:id="@+id/tv_provider_name"

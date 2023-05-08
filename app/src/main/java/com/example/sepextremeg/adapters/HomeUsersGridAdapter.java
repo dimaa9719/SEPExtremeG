@@ -24,6 +24,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class HomeUsersGridAdapter extends ArrayAdapter<StaffModel> {
 
     public HomeUsersGridAdapter(@NonNull Context context, @NonNull List<StaffModel> objects) {
@@ -42,14 +44,14 @@ public class HomeUsersGridAdapter extends ArrayAdapter<StaffModel> {
 
         StaffModel staffModel = getItem(position);
         TextView name, tv_provider_job, btnCreate;
-        ImageView image;
+        CircleImageView image;
         CardView card_view_type;
         LinearLayout llRatingView;
 
         name = itemView.findViewById(R.id.tv_provider_name);
         tv_provider_job = itemView.findViewById(R.id.tv_provider_job);
         btnCreate = itemView.findViewById(R.id.btnCreate);
-        image = itemView.findViewById(R.id.emp_image);
+        image = itemView.findViewById(R.id.ProfileImageView);
         card_view_type = itemView.findViewById(R.id.card_view_type);
 
         name.setText(staffModel.getName());

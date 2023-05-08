@@ -4,6 +4,9 @@ import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static android.content.ContentValues.TAG;
 
+import static com.example.sepextremeg.activity.LoginActivity.AUTHENTICATION;
+import static com.example.sepextremeg.activity.LoginActivity.My_ID;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
@@ -13,6 +16,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -57,10 +62,10 @@ import java.util.Locale;
 public class StaffMemberActivity extends AppCompatActivity {
 
     private TextView tvName, tvContact, tvJAddress, tvEmail,
-            tvBio,tvContactNo, tvFaculty, tvPosition, tvAuthor, btnDownload;
+            tvBio,tvContactNo, tvFaculty, tvPosition, tvAuthor, btnDownload, tvAddSalary;
     private RecyclerView rvQualifications, rvPublications, rvQualificationsPdf, rvPublicationsPdf;
     private ImageView img_provider, backBtn;
-    private LinearLayout llViewMore, ll_pdf;
+    private LinearLayout llViewMore, ll_pdf, llAddSalary;
     private ConstraintLayout clMainView;
     private ShimmerFrameLayout shimmerFrameLayout;
     private NestedScrollView nestedScrollView;
@@ -76,6 +81,7 @@ public class StaffMemberActivity extends AppCompatActivity {
     private DatabaseReference mDatabase;
     private static final int PERMISSION_REQUEST_CODE = 200;
     private Bitmap bitmap;
+    public static boolean isEdit = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +107,8 @@ public class StaffMemberActivity extends AppCompatActivity {
         tvFaculty = findViewById(R.id.tvFaculty);
         tvContactNo = findViewById(R.id.tvContactNo);
         clMainView = findViewById(R.id.clMainView);
+        llAddSalary = findViewById(R.id.llAddSalary);
+        tvAddSalary = findViewById(R.id.tvAddSalary);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         qualificationsArrayList = new ArrayList<>();
@@ -135,7 +143,6 @@ public class StaffMemberActivity extends AppCompatActivity {
             }
         });
 
-
         loadPersonalInfo();
 
         llViewMore.setOnClickListener(new View.OnClickListener() {
@@ -152,6 +159,47 @@ public class StaffMemberActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+
+        checkRecordExists();
+
+        //add my profile details
+        llAddSalary.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(StaffMemberActivity.this, AddMemberSalaryScaleActivity.class);
+                intent.putExtra("MemId", userID);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void checkRecordExists() {
+
+        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
+
+        if (userID != null && !userID.equals("")){
+            DatabaseReference userNameRef = rootRef.child("SalaryScale").child(userID);
+            ValueEventListener eventListener = new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if(dataSnapshot.exists()) {
+                        isEdit = true;
+                        tvAddSalary.setText("Edit Salary Details");
+                    } else {
+                        isEdit = false;
+                        tvAddSalary.setText("Add Salary Details");
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    Log.d(TAG, databaseError.getMessage()); //Don't ignore errors!
+                }
+            };
+            userNameRef.addListenerForSingleValueEvent(eventListener);
+        }
+
     }
 
     private void loadPersonalInfo() {
