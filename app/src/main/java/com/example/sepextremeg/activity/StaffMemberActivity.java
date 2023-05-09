@@ -168,6 +168,8 @@ public class StaffMemberActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(StaffMemberActivity.this, AddMemberSalaryScaleActivity.class);
                 intent.putExtra("MemId", userID);
+                intent.putExtra("MemName",getIntent().getStringExtra("MemName"));
+                intent.putExtra("MemEmail",getIntent().getStringExtra("MemEmail"));
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
             }

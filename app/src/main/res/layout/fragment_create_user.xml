@@ -46,6 +46,26 @@
         android:layout_marginTop="8dp"/>
 
     <TextView
+        android:id="@+id/tvServiceNo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Service Number"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"/>
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/etServiceNo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter employee's service no here"
+        android:inputType="textEmailAddress"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"/>
+
+    <TextView
         android:id="@+id/tvEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -39,7 +39,7 @@ import java.util.Objects;
 
 public class CreateUserActivity extends AppCompatActivity {
 
-    private TextInputEditText etUserName, etEmail, etPassword, etConPassword;
+    private TextInputEditText etUserName, etEmail, etServiceNo, etPassword, etConPassword;
     private Spinner spinner;
     private Button createUserBtn;
     private ImageView backBtn;
@@ -57,6 +57,7 @@ public class CreateUserActivity extends AppCompatActivity {
 
         etUserName = findViewById(R.id.etUserName);
         etEmail = findViewById(R.id.etEmail);
+        etServiceNo = findViewById(R.id.etServiceNo);
         etPassword = findViewById(R.id.etPassword);
         etConPassword = findViewById(R.id.etConPassword);
         backBtn = findViewById(R.id.backBtn);
@@ -99,6 +100,8 @@ public class CreateUserActivity extends AppCompatActivity {
                     Toast.makeText(CreateUserActivity.this, "Please select user role", Toast.LENGTH_SHORT).show();
                 }else if (TextUtils.isEmpty(etUserName.getText().toString())) {
                     Toast.makeText(CreateUserActivity.this, "Please enter username", Toast.LENGTH_SHORT).show();
+                } else if (TextUtils.isEmpty(etServiceNo.getText().toString())) {
+                    Toast.makeText(CreateUserActivity.this, "Please enter service no", Toast.LENGTH_SHORT).show();
                 } else if (TextUtils.isEmpty(etEmail.getText().toString())) {
                     Toast.makeText(CreateUserActivity.this, "Please enter email", Toast.LENGTH_SHORT).show();
                 } else if (TextUtils.isEmpty(etPassword.getText().toString())) {
@@ -129,6 +132,7 @@ public class CreateUserActivity extends AppCompatActivity {
                                             assert user != null;
                                             user_details.put("id", user.getUid());
                                             user_details.put("name", etUserName.getText().toString());
+                                            user_details.put("serviceNo", etServiceNo.getText().toString());
                                             user_details.put("mail", etEmail.getText().toString());
                                             user_details.put("profilepic", "");
                                             user_details.put("password", etPassword.getText().toString());
@@ -186,6 +190,7 @@ public class CreateUserActivity extends AppCompatActivity {
 
                                                                     Staff_details.put("id", user.getUid());
                                                                     Staff_details.put("name", etUserName.getText().toString());
+                                                                    Staff_details.put("serviceNo", etServiceNo.getText().toString());
                                                                     Staff_details.put("mail", etEmail.getText().toString());
                                                                     Staff_details.put("profilepic", "");
                                                                     Staff_details.put("password", etPassword.getText().toString());
