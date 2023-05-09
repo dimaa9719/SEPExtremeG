@@ -36,7 +36,7 @@ public class EditUserRoleFragment extends androidx.fragment.app.DialogFragment {
 
     DatabaseReference mDatabase;
 
-    String[] roles = {"Select role", "Dean", "Head", "Lecturer", "Assistant Lecturer", "Instructor"};
+    String[] roles = {"Select role", "Dean", "Head", "Senior Lecturer", "Lecturer", "Assistant Lecturer", "Instructor"};
     String userRole = "";
 
     public EditUserRoleFragment(Context mContext, String id) {
@@ -95,6 +95,7 @@ public class EditUserRoleFragment extends androidx.fragment.app.DialogFragment {
                                         intent.putExtra("MemId", itemId);
                                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                         startActivity(intent);
+                                        requireActivity().finish();
 
                                     }else {
                                         Toast.makeText(requireActivity(),"Failed to update",Toast.LENGTH_SHORT).show();

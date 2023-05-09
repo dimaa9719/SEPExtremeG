@@ -150,9 +150,11 @@ public class AdminHomeFragment extends Fragment {
                         progressDialog.dismiss();
                     }
 
-                    HomeUsersGridAdapter adapter = new HomeUsersGridAdapter(Objects.requireNonNull(getContext()), staffModelArrayList);
-                    idGvUrses.setAdapter(adapter);
-                    System.out.println("pub size------- " + staffModelArrayList.size());
+                    if (getContext() != null) {
+                        HomeUsersGridAdapter adapter = new HomeUsersGridAdapter(getContext(), staffModelArrayList);
+                        idGvUrses.setAdapter(adapter);
+                        System.out.println("pub size------- " + staffModelArrayList.size());
+                    }
                 }
 
                 @Override

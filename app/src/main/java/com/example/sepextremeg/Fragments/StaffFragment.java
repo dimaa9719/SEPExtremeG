@@ -83,7 +83,7 @@ public class StaffFragment extends Fragment {
                         }
 
                         System.out.println("staff list " + staffModelArrayList.size());
-                        StaffMemberRecycleViewAdapter adapter = new StaffMemberRecycleViewAdapter(getActivity(), staffModelArrayList);
+                        StaffMemberRecycleViewAdapter adapter = new StaffMemberRecycleViewAdapter(getContext(), staffModelArrayList);
                         recyclerView.setAdapter(adapter);
                     }
                 }

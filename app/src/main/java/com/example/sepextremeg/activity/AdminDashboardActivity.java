@@ -60,6 +60,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
 
                     }
                     //Sets the selected Fragment into the Framelayout
+                    assert fragment != null;
                     getSupportFragmentManager().beginTransaction().replace(R.id.AdminFragmentContainer, fragment).commit();
                     return true;
                 }

@@ -45,7 +45,7 @@ public class CreateUserActivity extends AppCompatActivity {
     private ImageView backBtn;
     ProgressDialog progressBar;
 
-    String[] roles = {"Select role", "Admin", "Dean", "Head", "Lecturer", "Assistant Lecturer", "Instructor"};
+    String[] roles = {"Select role", "Admin", "Dean", "Head", "Senior Lecturer", "Lecturer", "Assistant Lecturer", "Instructor"};
     String userRole = "";
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
