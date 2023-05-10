@@ -37,6 +37,7 @@ public class LoginActivity extends Activity {
     public static String AUTHENTICATION = "AUTHENTICATION";
     public static String My_ID = "My_ID";
     public static String My_Name = "My_Name";
+    public static String MY_SERVICE_NO = "MY_SERVICE_NO";
     public static String My_Email = "My_Email";
     public static String My_ProfilePic = "My_ProfilePic";
     public static String My_Role = "My_Role";
@@ -116,7 +117,7 @@ public class LoginActivity extends Activity {
 
                                                     if (dataSnapshot.child("role").getValue().equals("Admin")) {
                                                         //navigating to the main activity after user successfully registers
-                                                        saveDateToLocalDb(dataSnapshot.child("id").getValue().toString(),dataSnapshot.child("name").getValue().toString(), dataSnapshot.child("mail").getValue().toString(),
+                                                        saveDateToLocalDb(dataSnapshot.child("id").getValue().toString(),dataSnapshot.child("name").getValue().toString(),dataSnapshot.child("serviceNo").getValue().toString(), dataSnapshot.child("mail").getValue().toString(),
                                                                 dataSnapshot.child("profilepic").getValue().toString(), dataSnapshot.child("role").getValue().toString());
 
                                                         Intent intent = new Intent(getApplicationContext(), AdminDashboardActivity.class);
@@ -124,7 +125,7 @@ public class LoginActivity extends Activity {
                                                         startActivity(intent);
                                                     } else {
                                                         //navigating to the main activity after user successfully registers
-                                                        saveDateToLocalDb(dataSnapshot.child("id").getValue().toString(),dataSnapshot.child("name").getValue().toString(), dataSnapshot.child("mail").getValue().toString(),
+                                                        saveDateToLocalDb(dataSnapshot.child("id").getValue().toString(),dataSnapshot.child("name").getValue().toString(), dataSnapshot.child("serviceNo").getValue().toString(), dataSnapshot.child("mail").getValue().toString(),
                                                                 dataSnapshot.child("profilepic").getValue().toString(), dataSnapshot.child("role").getValue().toString());
 
                                                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
@@ -179,7 +180,7 @@ public class LoginActivity extends Activity {
         });
     }
 
-    private void saveDateToLocalDb(String id, String name, String email, String profilepic, String userrole) {
+    private void saveDateToLocalDb(String id, String name, String serviceNo,String email, String profilepic, String userrole) {
 
         Log.d("log4", "done");
         // Storing data into SharedPreferences
@@ -190,6 +191,7 @@ public class LoginActivity extends Activity {
         // Storing the key and its value as the data fetched from edittext
         myEdit.putString(My_ID, id);
         myEdit.putString(My_Name, name);
+        myEdit.putString(MY_SERVICE_NO, serviceNo);
         myEdit.putString(My_Email, email);
         myEdit.putString(My_ProfilePic, profilepic);
         myEdit.putString(My_Role, userrole);
