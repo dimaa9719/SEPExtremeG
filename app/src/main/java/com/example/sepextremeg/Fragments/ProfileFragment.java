@@ -32,6 +32,8 @@ import com.example.sepextremeg.activity.AddProfileDetailsActivity;
 import com.example.sepextremeg.activity.AddPublicationDetailsActivity;
 import com.example.sepextremeg.activity.AddQualificationDetailsActivity;
 import com.example.sepextremeg.activity.LoginActivity;
+import com.example.sepextremeg.activity.ViewMyInvoiceDetailsActivity;
+import com.example.sepextremeg.activity.ViewOverallProfileDetailsActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -55,7 +57,7 @@ public class ProfileFragment extends Fragment {
     CircleImageView imageView;
     TextView userName;
     Button signOutBtn, editProfileBtn, editPublicationsBtn,editQualificationBtn,
-            resetPasswordBtn, updatePwButton, deleteAccBtn;
+            resetPasswordBtn, updatePwButton, deleteAccBtn, viewSalaryDetailsBtn, viewOverallProfileBtn;
     LinearLayout llActions, llPasswordReset;
     EditText etNewPassword;
     public static boolean isEdit = false;
@@ -80,6 +82,8 @@ public class ProfileFragment extends Fragment {
         deleteAccBtn = view.findViewById(R.id.deleteAccBtn);
         editPublicationsBtn = view.findViewById(R.id.editPublicationsBtn);
         editQualificationBtn = view.findViewById(R.id.editQualificationBtn);
+        viewSalaryDetailsBtn = view.findViewById(R.id.viewSalaryDetailsBtn);
+        viewOverallProfileBtn = view.findViewById(R.id.viewOverallProfileBtn);
 
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -127,6 +131,30 @@ public class ProfileFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
+        //view my salary details
+        if (viewSalaryDetailsBtn != null) {
+            viewSalaryDetailsBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getContext(), ViewMyInvoiceDetailsActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                }
+            });
+        }
+
+        //view my info details
+        if (viewOverallProfileBtn != null) {
+            viewOverallProfileBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getContext(), ViewOverallProfileDetailsActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                }
+            });
+        }
 
         //implementing onClickListener to make the user signOut
         signOutBtn.setOnClickListener(new View.OnClickListener() {
@@ -230,9 +258,12 @@ public class ProfileFragment extends Fragment {
                     if(dataSnapshot.exists()) {
                         isEdit = true;
                         editProfileBtn.setText("Edit Profile Details");
+
+                        viewOverallProfileBtn.setVisibility(View.VISIBLE);
                     } else {
                         isEdit = false;
                         editProfileBtn.setText("Add Profile Details");
+                        viewOverallProfileBtn.setVisibility(View.GONE);
                     }
                 }
 
@@ -283,6 +314,24 @@ public class ProfileFragment extends Fragment {
                 }
             };
             qualiRef.addListenerForSingleValueEvent(qualiListener);
+
+            DatabaseReference salaryRef = rootRef.child("SalaryScale").child(userID);
+            ValueEventListener salListener = new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if(dataSnapshot.exists()) {
+                      viewSalaryDetailsBtn.setVisibility(View.VISIBLE);
+                    } else {
+                        viewSalaryDetailsBtn.setVisibility(View.GONE);
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    Log.d(TAG, databaseError.getMessage()); //Don't ignore errors!
+                }
+            };
+            salaryRef.addListenerForSingleValueEvent(salListener);
         }
 
     }

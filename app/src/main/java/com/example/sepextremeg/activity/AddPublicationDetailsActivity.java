@@ -5,6 +5,7 @@ import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static android.content.ContentValues.TAG;
 import static com.example.sepextremeg.Fragments.ProfileFragment.isEdit;
 import static com.example.sepextremeg.activity.LoginActivity.AUTHENTICATION;
+import static com.example.sepextremeg.activity.LoginActivity.MY_SERVICE_NO;
 import static com.example.sepextremeg.activity.LoginActivity.My_ID;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -63,7 +64,7 @@ public class AddPublicationDetailsActivity extends AppCompatActivity {
     EditText etPubTitle,etPubType, etAuthorName,etOrganisation, etLanguage,etCityCountry,etYearPublished, etPermLink;
     Button addDetailsBtn, addAnotherBtn;
     ImageView backBtn;
-    TextView tvtitle, tvPublicationId, tvTodayDate, tvAuthor, tvPubTitle, tvPubType, tvYearPublished;
+    TextView tvtitle, tvRefId, tvPublicationId, tvTodayDate, tvAuthor, tvPubTitle, tvPubType, tvYearPublished;
     RecyclerView added_info_recycle_view;
     private SharedPreferences sharedPreferences;
     private DatabaseReference mDatabase;
@@ -73,7 +74,7 @@ public class AddPublicationDetailsActivity extends AppCompatActivity {
     ArrayList<Publications> publicationsArrayList;
     private AddedInfoRecyclerViewAdapter addedInfoDetailsRecycleViewAdapter;
     private int updateIndex = 0;
-    String publicationID = "";
+    String publicationID = "", employeeServiceNo = "";
     private Bitmap bitmap;
     // constant code for runtime permissions
     private static final int PERMISSION_REQUEST_CODE = 200;
@@ -100,6 +101,7 @@ public class AddPublicationDetailsActivity extends AppCompatActivity {
         backBtn = findViewById(R.id.backBtn);
         ll_pdf = findViewById(R.id.ll_pdf);
         tvPublicationId = findViewById(R.id.tvPublicationId);
+        tvRefId = findViewById(R.id.tvRefId);
         tvTodayDate = findViewById(R.id.tvTodayDate);
         tvAuthor = findViewById(R.id.tvAuthor);
         tvPubTitle = findViewById(R.id.tvPubTitle);
@@ -112,6 +114,8 @@ public class AddPublicationDetailsActivity extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences(AUTHENTICATION, MODE_PRIVATE);
         userID = sharedPreferences.getString(My_ID, "");
+        employeeServiceNo = sharedPreferences.getString(MY_SERVICE_NO, "");
+        tvRefId.setText("Service No: " + employeeServiceNo);
 
         if (checkPermission()){
 

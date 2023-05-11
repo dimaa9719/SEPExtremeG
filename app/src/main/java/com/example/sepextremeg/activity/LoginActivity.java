@@ -117,7 +117,7 @@ public class LoginActivity extends Activity {
 
                                                     if (dataSnapshot.child("role").getValue().equals("Admin")) {
                                                         //navigating to the main activity after user successfully registers
-                                                        saveDateToLocalDb(dataSnapshot.child("id").getValue().toString(),dataSnapshot.child("name").getValue().toString(),dataSnapshot.child("serviceNo").getValue().toString(), dataSnapshot.child("mail").getValue().toString(),
+                                                        saveDateToLocalDb(dataSnapshot.child("id").getValue().toString(),dataSnapshot.child("name").getValue().toString(), "", dataSnapshot.child("mail").getValue().toString(),
                                                                 dataSnapshot.child("profilepic").getValue().toString(), dataSnapshot.child("role").getValue().toString());
 
                                                         Intent intent = new Intent(getApplicationContext(), AdminDashboardActivity.class);

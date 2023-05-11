@@ -99,7 +99,7 @@ public class UserHomeFragment extends Fragment {
             }
         });
 
-        //add my qualification details
+        //view my salary details
         card_view_type_invoice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -182,6 +182,24 @@ public class UserHomeFragment extends Fragment {
                 }
             };
             qualiRef.addListenerForSingleValueEvent(qualiListener);
+
+            DatabaseReference salaryRef = rootRef.child("SalaryScale").child(userID);
+            ValueEventListener salListener = new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if(dataSnapshot.exists()) {
+                        card_view_type_invoice.setVisibility(View.VISIBLE);
+                    } else {
+                        card_view_type_invoice.setVisibility(View.GONE);
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    Log.d(TAG, databaseError.getMessage()); //Don't ignore errors!
+                }
+            };
+            salaryRef.addListenerForSingleValueEvent(salListener);
         }
 
     }

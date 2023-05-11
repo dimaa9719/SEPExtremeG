@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".Fragments.ProfileFragment">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -59,6 +63,20 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:text="Add Qualification Details" />
+
+        <Button
+            android:id="@+id/viewSalaryDetailsBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="View Salary Details" />
+
+        <Button
+            android:id="@+id/viewOverallProfileBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="View Overall Profile Details" />
 
         <Button
             android:id="@+id/resetPasswordBtn"
@@ -119,3 +137,4 @@
 
     </LinearLayout>
 </LinearLayout>
+</androidx.core.widget.NestedScrollView>
