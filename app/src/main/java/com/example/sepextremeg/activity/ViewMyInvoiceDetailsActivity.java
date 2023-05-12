@@ -129,9 +129,8 @@ public class ViewMyInvoiceDetailsActivity extends AppCompatActivity {
         String[] result = formattedDate.split("-");
         String date = result[0];
 
-        if (date.equals("10")){
-            downloadPaySlip.setVisibility(View.VISIBLE);
-        }
+        downloadPaySlip.setVisibility(View.VISIBLE);
+
 
         if (downloadPaySlip != null){
             downloadPaySlip.setOnClickListener(new View.OnClickListener() {

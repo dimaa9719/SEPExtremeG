@@ -157,11 +157,10 @@ public class AddMemberSalaryScaleActivity extends AppCompatActivity {
         String[] result = formattedDate.split("-");
         String date = result[0];
 
-        if (date.equals("10")){
             generatePaySlipBtn.setVisibility(View.VISIBLE);
             addDetailsView.setVisibility(View.GONE);
             ll_invoice_pdf.setVisibility(View.VISIBLE);
-        }
+
 
         if (generatePaySlipBtn != null){
             generatePaySlipBtn.setOnClickListener(new View.OnClickListener() {

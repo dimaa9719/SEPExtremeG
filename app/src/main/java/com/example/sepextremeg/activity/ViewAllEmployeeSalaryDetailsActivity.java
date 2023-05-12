@@ -114,9 +114,8 @@ public class ViewAllEmployeeSalaryDetailsActivity extends AppCompatActivity {
         String[] result = formattedDate.split("-");
         String date = result[0];
 
-        if (date.equals("10")){
-            downloadPaySlip.setVisibility(View.VISIBLE);
-        }
+
+        downloadPaySlip.setVisibility(View.VISIBLE);
 
         if (downloadPaySlip != null){
             downloadPaySlip.setOnClickListener(new View.OnClickListener() {
@@ -177,7 +176,7 @@ public class ViewAllEmployeeSalaryDetailsActivity extends AppCompatActivity {
     public void generatePaySlip(){
 
         String currentDateTimeString = java.text.DateFormat.getDateTimeInstance().format(new Date());
-        tvDate.setText("Create At: " + currentDateTimeString);
+        tvDate.setText(currentDateTimeString);
 
         bitmap = loadBitmap(ll_invoice_pdf, ll_invoice_pdf.getWidth(), ll_invoice_pdf.getHeight());
         createPdf();
@@ -215,7 +214,7 @@ public class ViewAllEmployeeSalaryDetailsActivity extends AppCompatActivity {
 
         String currentDate = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.getDefault()).format(new Date());
         String newDate = currentDate.replace("-", "_").replace(" ", "").replace(":", "_");
-        File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "MonthlyPaySlip" + newDate + ".pdf");
+        File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "OverallMonthlyPaySlip" + newDate + ".pdf");
 
         try {
             pdfDocument.writeTo(new FileOutputStream(file));
