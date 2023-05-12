@@ -40,9 +40,12 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.sepextremeg.R;
 import com.example.sepextremeg.adapters.AddedInfoRecyclerViewAdapter;
 import com.example.sepextremeg.adapters.AddedQualificationInfoRecyclerViewAdapter;
+import com.example.sepextremeg.adapters.HomeUsersGridAdapter;
 import com.example.sepextremeg.model.Profile;
 import com.example.sepextremeg.model.Publications;
 import com.example.sepextremeg.model.Qualifications;
+import com.example.sepextremeg.model.SalaryScale;
+import com.example.sepextremeg.model.StaffModel;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -70,7 +73,7 @@ public class StaffMemberActivity extends AppCompatActivity {
     private ShimmerFrameLayout shimmerFrameLayout;
     private NestedScrollView nestedScrollView;
     private ProgressDialog progressDialog;
-    private String userID = "";
+    private String userID = "", employeeName, empServiceNo;
     private int page = -1;
     private boolean loading = true;
     private int pastVisibleItems, visibleItemCount, totalItemCount;
@@ -119,8 +122,8 @@ public class StaffMemberActivity extends AppCompatActivity {
 
         userID = getIntent().getStringExtra("MemId");
 
+        employeeName = getIntent().getStringExtra("MemName");
         tvName.setText(getIntent().getStringExtra("MemName"));
-        tvEmail.setText(getIntent().getStringExtra("MemEmail"));
 
         if(getIntent().getStringExtra("MemImage") !=null) {
             Picasso.get().load(getIntent().getStringExtra("MemImage")).into(img_provider);
@@ -168,8 +171,8 @@ public class StaffMemberActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(StaffMemberActivity.this, AddMemberSalaryScaleActivity.class);
                 intent.putExtra("MemId", userID);
-                intent.putExtra("MemName",getIntent().getStringExtra("MemName"));
-                intent.putExtra("MemEmail",getIntent().getStringExtra("MemEmail"));
+                intent.putExtra("MemName",employeeName);
+                intent.putExtra("MemEmail",empServiceNo);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
             }
@@ -233,6 +236,28 @@ public class StaffMemberActivity extends AppCompatActivity {
                 }
             };
             userNameRef.addListenerForSingleValueEvent(eventListener);
+
+            //getserviceNo
+            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("users").child("Staff").child(userID);
+
+            ValueEventListener listener = new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                   if (dataSnapshot.exists()){
+                       StaffModel staffModel = dataSnapshot.getValue(StaffModel.class);
+                       assert staffModel != null;
+                       empServiceNo = staffModel.getServiceNo();
+                       tvEmail.setText("Service No: " + staffModel.getServiceNo());
+                   }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    Log.d(TAG, databaseError.getMessage()); //Don't ignore errors!
+                    progressDialog.dismiss();
+                }
+            };
+            databaseReference.addValueEventListener(listener);
 
         }
     }

@@ -3,10 +3,6 @@ package com.example.sepextremeg.activity;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static android.content.ContentValues.TAG;
-import static com.example.sepextremeg.activity.LoginActivity.AUTHENTICATION;
-import static com.example.sepextremeg.activity.LoginActivity.MY_SERVICE_NO;
-import static com.example.sepextremeg.activity.LoginActivity.My_ID;
-import static com.example.sepextremeg.activity.LoginActivity.My_Name;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -36,7 +32,11 @@ import android.widget.Toast;
 
 import com.example.sepextremeg.R;
 import com.example.sepextremeg.adapters.AddedSalaryInfoRecyclerViewAdapter;
+import com.example.sepextremeg.adapters.HomeUsersGridAdapter;
+import com.example.sepextremeg.model.Profile;
+import com.example.sepextremeg.model.Publications;
 import com.example.sepextremeg.model.SalaryScale;
+import com.example.sepextremeg.model.StaffModel;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -52,14 +52,13 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-public class ViewMyInvoiceDetailsActivity extends AppCompatActivity {
+public class ViewAllEmployeeSalaryDetailsActivity extends AppCompatActivity {
 
     LinearLayout ll_invoice_pdf;
-    RecyclerView added_info_recycle_view;
+    RecyclerView added_info_recycle_view, added_info_recycle_view_one;
     Button downloadPaySlip;
     ImageView backBtn;
-    TextView tvInvoiceId,tvRefId, tvTodayDate,tvEmployeeName,tvJobTitle,tvNetSalary,tvAllowance,tvRaPercentage,tvDeductionRate,
-            tvTaxRate;
+    TextView  tvDate;
 
     private SharedPreferences sharedPreferences;
     private DatabaseReference mDatabase;
@@ -68,6 +67,7 @@ public class ViewMyInvoiceDetailsActivity extends AppCompatActivity {
     SalaryScale salaryScale;
     String userID, employeeName, employeeServiceNo;
     ArrayList<SalaryScale> salaryScaleArrayList;
+    ArrayList<StaffModel> staffModelArrayList = new ArrayList<>();
     private Bitmap bitmap;
     // constant code for runtime permissions
     private static final int PERMISSION_REQUEST_CODE = 200;
@@ -75,30 +75,15 @@ public class ViewMyInvoiceDetailsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_my_invoice_details);
+        setContentView(R.layout.activity_view_all_employee_salary_details);
 
         //invoice layout views
         backBtn = findViewById(R.id.backBtn);
         ll_invoice_pdf = findViewById(R.id.ll_invoice_pdf);
-        tvInvoiceId = findViewById(R.id.tvInvoiceId);
-        tvRefId = findViewById(R.id.tvRefId);
-        tvTodayDate = findViewById(R.id.tvTodayDate);
-        tvEmployeeName = findViewById(R.id.tvEmployeeName);
-        tvJobTitle = findViewById(R.id.tvJobTitle);
-        tvNetSalary = findViewById(R.id.tvNetSalary);
-        tvAllowance = findViewById(R.id.tvAllowance);
-        tvRaPercentage = findViewById(R.id.tvRaPercentage);
-        tvDeductionRate = findViewById(R.id.tvDeductionRate);
-        tvTaxRate = findViewById(R.id.tvTaxRate);
+        tvDate = findViewById(R.id.tvDate);
         downloadPaySlip = findViewById(R.id.downloadPaySlip);
         added_info_recycle_view = findViewById(R.id.added_info_recycle_view);
-
-        sharedPreferences = getSharedPreferences(AUTHENTICATION, MODE_PRIVATE);
-        employeeServiceNo = sharedPreferences.getString(MY_SERVICE_NO, "");
-        tvRefId.setText("Service No: " + employeeServiceNo);
-        userID = sharedPreferences.getString(My_ID, "");
-        System.out.println("user id - " + userID);
-        tvEmployeeName.setText(sharedPreferences.getString(My_Name, ""));
+        added_info_recycle_view_one = findViewById(R.id.added_info_recycle_view_one);
 
         salaryScale = new SalaryScale();
         salaryScaleArrayList = new ArrayList<>();
@@ -145,8 +130,8 @@ public class ViewMyInvoiceDetailsActivity extends AppCompatActivity {
 
     private void readData() {
 
-        if (userID != null && !userID.equals("")){
-            DatabaseReference userNameRef = mDatabase.child("SalaryScale").child(userID);
+            DatabaseReference userNameRef = mDatabase.child("SalaryScale");
+
             progressDialog = new ProgressDialog(this);
 
             progressDialog.setMessage("Loading Data...");
@@ -156,21 +141,14 @@ public class ViewMyInvoiceDetailsActivity extends AppCompatActivity {
             ValueEventListener eventListener = new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    if(dataSnapshot.exists()) {
-                        // Get Post object and use the values to update the UI
-                        SalaryScale salaryScale = dataSnapshot.getValue(SalaryScale.class);
-                        assert salaryScale != null;
-                        salaryScaleArrayList.add(salaryScale);
-                        getAddedInfoDetails();
-                        progressDialog.dismiss();
+                    for(DataSnapshot ds : dataSnapshot.getChildren()) {
+                        SalaryScale salary = dataSnapshot.getValue(SalaryScale.class);
+                        assert salary != null;
 
-                        //set data to payslip
-                        tvInvoiceId.setText(salaryScale.getSalaryCode());
-                        tvNetSalary.setText(salaryScale.getBasicSalary());
-                        tvAllowance.setText(salaryScale.getResearchAllowancePercentage());
-                        tvRaPercentage.setText(salaryScale.getAllowances());
-                        tvDeductionRate.setText(salaryScale.getDeductionRate());
-                        tvTaxRate.setText(salaryScale.getTaxRate());
+                        salaryScaleArrayList.add(ds.getValue(SalaryScale.class));
+                        progressDialog.dismiss();
+                        getAddedInfoDetails();
+
                     }
                 }
 
@@ -180,7 +158,6 @@ public class ViewMyInvoiceDetailsActivity extends AppCompatActivity {
                 }
             };
             userNameRef.addValueEventListener(eventListener);
-        }
 
     }
 
@@ -191,12 +168,16 @@ public class ViewMyInvoiceDetailsActivity extends AppCompatActivity {
         addedSalaryInfoRecyclerViewAdapter = new AddedSalaryInfoRecyclerViewAdapter(this, salaryScaleArrayList);
         added_info_recycle_view.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         added_info_recycle_view.setAdapter(addedSalaryInfoRecyclerViewAdapter);
+
+        added_info_recycle_view_one.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        added_info_recycle_view_one.setAdapter(addedSalaryInfoRecyclerViewAdapter);
+
     }
 
     public void generatePaySlip(){
 
         String currentDateTimeString = java.text.DateFormat.getDateTimeInstance().format(new Date());
-        tvTodayDate.setText("Create At: " + currentDateTimeString);
+        tvDate.setText("Create At: " + currentDateTimeString);
 
         bitmap = loadBitmap(ll_invoice_pdf, ll_invoice_pdf.getWidth(), ll_invoice_pdf.getHeight());
         createPdf();
@@ -234,7 +215,7 @@ public class ViewMyInvoiceDetailsActivity extends AppCompatActivity {
 
         String currentDate = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.getDefault()).format(new Date());
         String newDate = currentDate.replace("-", "_").replace(" ", "").replace(":", "_");
-        File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), getIntent().getStringExtra("MemName") + "PaySlip" + newDate + ".pdf");
+        File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "MonthlyPaySlip" + newDate + ".pdf");
 
         try {
             pdfDocument.writeTo(new FileOutputStream(file));

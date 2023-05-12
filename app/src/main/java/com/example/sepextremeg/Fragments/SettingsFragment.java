@@ -24,6 +24,7 @@ import com.example.sepextremeg.R;
 import com.example.sepextremeg.activity.AddProfileDetailsActivity;
 import com.example.sepextremeg.activity.CreateUserActivity;
 import com.example.sepextremeg.activity.LoginActivity;
+import com.example.sepextremeg.activity.ViewAllEmployeeSalaryDetailsActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -44,7 +45,7 @@ public class SettingsFragment extends Fragment {
 
     CircleImageView imageView;
     TextView userName;
-    Button signOutBtn, createUserBtn;
+    Button signOutBtn, createUserBtn, viewMonthlySalaryReportBtn;
     public static boolean isEdit = false;
 
     @Override
@@ -57,6 +58,7 @@ public class SettingsFragment extends Fragment {
         userName = (TextView) view.findViewById(R.id.UserNameTxt);
         signOutBtn = (Button) view.findViewById(R.id.SignOutBtn);
         createUserBtn = (Button) view.findViewById(R.id.createUserBtn);
+        viewMonthlySalaryReportBtn = (Button) view.findViewById(R.id.viewMonthlySalaryReportBtn);
 
         SharedPreferences sharedPreferences = getContext().getSharedPreferences(AUTHENTICATION, MODE_PRIVATE);
         String un = sharedPreferences.getString(My_Name, "");
@@ -84,6 +86,16 @@ public class SettingsFragment extends Fragment {
             public void onClick(View view) {
 
                 Intent intent = new Intent(getContext(), CreateUserActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
+        });
+
+        viewMonthlySalaryReportBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(getContext(), ViewAllEmployeeSalaryDetailsActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
             }

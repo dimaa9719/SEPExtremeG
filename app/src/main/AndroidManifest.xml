@@ -18,6 +18,9 @@
         android:theme="@style/Theme.AppCompat.NoActionBar"
         tools:targetApi="31">
         <activity
+            android:name=".activity.ViewAllEmployeeSalaryDetailsActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.ViewOverallProfileDetailsActivity"
             android:exported="false" />
         <activity

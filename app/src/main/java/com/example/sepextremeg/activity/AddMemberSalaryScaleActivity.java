@@ -120,7 +120,7 @@ public class AddMemberSalaryScaleActivity extends AppCompatActivity {
             }
         });
 
-        if (!isEdit){
+        if (isEdit){
             readData();
             addDetailsBtn.setText("Update");
             addDetailsBtn.setOnClickListener(new View.OnClickListener() {
@@ -197,7 +197,9 @@ public class AddMemberSalaryScaleActivity extends AppCompatActivity {
         salaryScale.setTaxRate(String.valueOf(etTaxRate.getText()));
 
         DatabaseReference databaseReference = mDatabase.child("SalaryScale").child(userID);
-
+        salaryScale.setId(userID);
+        salaryScale.setEmployeeName(getIntent().getStringExtra("MemName"));
+        salaryScale.setEmployeeServiceNo(getIntent().getStringExtra("MemEmail"));
         salaryScaleArrayList.add(salaryScale);
         databaseReference.setValue(salaryScale)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {

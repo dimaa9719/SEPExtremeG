@@ -41,6 +41,13 @@
         android:text="Create User" />
 
     <Button
+        android:id="@+id/viewMonthlySalaryReportBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="View Monthly Salary Report" />
+
+    <Button
         android:id="@+id/SignOutBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

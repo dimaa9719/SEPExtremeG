@@ -12,8 +12,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sepextremeg.R;
-import com.example.sepextremeg.activity.AddPublicationDetailsActivity;
-import com.example.sepextremeg.model.Publications;
+import com.example.sepextremeg.activity.ViewAllEmployeeSalaryDetailsActivity;
 import com.example.sepextremeg.model.SalaryScale;
 
 import java.util.ArrayList;
@@ -22,6 +21,7 @@ public class AddedSalaryInfoRecyclerViewAdapter extends RecyclerView.Adapter<Add
 
     private final Context mContext;
     private final ArrayList<SalaryScale> bulkList;
+    String employeeName, employeeServiceNo;
 
     public AddedSalaryInfoRecyclerViewAdapter(Context activity, ArrayList<SalaryScale> arrayList) {
         this.mContext = activity;
@@ -41,7 +41,11 @@ public class AddedSalaryInfoRecyclerViewAdapter extends RecyclerView.Adapter<Add
         holder.removeLayout.setVisibility(View.GONE);
         holder.editLayout.setVisibility(View.GONE);
         holder.tvLogo.setVisibility(View.GONE);
-        holder.tvDownload.setVisibility(View.GONE);
+//        holder.tvDownload.setVisibility(View.GONE);
+
+        if (!bulkList.get(position).getEmployeeName().equals("") && !bulkList.get(position).getEmployeeServiceNo().equals("")){
+            holder.tvDownload.setText("Name: " + bulkList.get(position).getEmployeeName()  + "\n" + "Service No: " + bulkList.get(position).getEmployeeServiceNo());
+        }
 
         StringBuilder sb = new StringBuilder();
         sb.append("Salary code - ").append(bulkList.get(position).getSalaryCode()).append("\n");

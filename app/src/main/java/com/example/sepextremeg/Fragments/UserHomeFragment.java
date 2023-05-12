@@ -67,7 +67,9 @@ public class UserHomeFragment extends Fragment {
         tvUserName.setText("Hello " + un);
 
         String image = sharedPreferences.getString(My_ProfilePic, "");
-        Picasso.get().load(image).into(emp_image);
+        if (image !=null && !image.equals("")){
+            Picasso.get().load(image).into(emp_image);
+        }
 
         //add my profile details
         card_view_type_info.setOnClickListener(new View.OnClickListener() {
