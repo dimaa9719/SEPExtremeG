@@ -21,6 +21,14 @@ Method 2
 Step 1: Click on the Checkout Project from Version Control. In Version control choose Git from the drop-down menu.
 Step 2: Then a pop-up box will come. Paste the link in the URL and choose your Directory. Click on the Clone button and you are done.
 
+Method 3
+Step 1: Download the ZIP folder.
+Step 2: Download Github Desktop in your machines.
+Step3: Cut and paste the downloaded folder from " Downloads" folder to "Github" folder. Find where your github folder. Paste the folder inside github folder.
+Step 4: Now open android studio 
+Step 5: Click File-> Open -> Select the folder copied to the Github Folder -> Click "OK"
+Step 6: After project successfully "build" with no errors You can run the project.
+
 That's all!
 
 B. Post Requsities

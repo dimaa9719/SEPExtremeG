@@ -65,7 +65,7 @@ public class HomeVerticalAdapter extends RecyclerView.Adapter<HomeVerticalAdapte
 
             HomeHorizontalAdapter horizontalRecycleViewAdapter
                     = new HomeHorizontalAdapter(context
-                    , singleItem, title);
+                    , singleItem);
 
             if (holder.recyclerViewBouncy != null) {
 

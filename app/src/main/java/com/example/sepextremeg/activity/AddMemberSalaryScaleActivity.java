@@ -3,9 +3,8 @@ package com.example.sepextremeg.activity;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static android.content.ContentValues.TAG;
+
 import static com.example.sepextremeg.Fragments.ProfileFragment.isEdit;
-import static com.example.sepextremeg.activity.LoginActivity.AUTHENTICATION;
-import static com.example.sepextremeg.activity.LoginActivity.My_ID;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -25,6 +24,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
@@ -120,26 +120,37 @@ public class AddMemberSalaryScaleActivity extends AppCompatActivity {
             }
         });
 
-        if (isEdit){
-            readData();
-            addDetailsBtn.setText("Update");
-            addDetailsBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    updateData();
-                }
-            });
-
-        } else {
-            addDetailsBtn.setText("Add");
-            addDetailsBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    insertData();
-                }
-            });
-
-        }
+//        if (isEdit){
+//            readData();
+//            addDetailsBtn.setText("Update");
+//            addDetailsBtn.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    updateData();
+//                }
+//            });
+//
+//            generatePaySlipBtn.setVisibility(View.VISIBLE);
+//            ll_invoice_pdf.setVisibility(View.VISIBLE);
+//
+//        } else {
+//            addDetailsBtn.setText("Add");
+//            addDetailsBtn.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    if (TextUtils.isEmpty(etSalaryCpde.getText().toString()) || TextUtils.isEmpty(etBasicSalary.getText().toString())
+//                            || TextUtils.isEmpty(etAllowances.getText().toString()) || TextUtils.isEmpty(etAResearchAllowancePercentage.getText().toString())
+//                            || TextUtils.isEmpty(etDeductionRate.getText().toString()) || TextUtils.isEmpty(etTaxRate.getText().toString()))
+//                    {
+//                        Toast.makeText(AddMemberSalaryScaleActivity.this, "Please fill all the details", Toast.LENGTH_SHORT).show();
+//                    } else {
+//                        insertData();
+//                    }
+//                }
+//            });
+//
+//        }
+        readData();
 
         if (checkPermission()){
 
@@ -157,9 +168,12 @@ public class AddMemberSalaryScaleActivity extends AppCompatActivity {
         String[] result = formattedDate.split("-");
         String date = result[0];
 
-            generatePaySlipBtn.setVisibility(View.VISIBLE);
-            addDetailsView.setVisibility(View.GONE);
-            ll_invoice_pdf.setVisibility(View.VISIBLE);
+//        if (date.equals("16")){
+//            generatePaySlipBtn.setVisibility(View.GONE);
+//            addDetailsView.setVisibility(View.VISIBLE);
+//            ll_invoice_pdf.setVisibility(View.GONE);
+//        }
+
 
 
         if (generatePaySlipBtn != null){
@@ -293,6 +307,33 @@ public class AddMemberSalaryScaleActivity extends AppCompatActivity {
                         tvRaPercentage.setText(salaryScale.getAllowances());
                         tvDeductionRate.setText(salaryScale.getDeductionRate());
                         tvTaxRate.setText(salaryScale.getTaxRate());
+
+                        addDetailsBtn.setText("Update");
+                        addDetailsBtn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                updateData();
+                            }
+                        });
+
+                        generatePaySlipBtn.setVisibility(View.VISIBLE);
+                        ll_invoice_pdf.setVisibility(View.VISIBLE);
+
+                    } else {
+                        addDetailsBtn.setText("Add");
+                        addDetailsBtn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                if (TextUtils.isEmpty(etSalaryCpde.getText().toString()) || TextUtils.isEmpty(etBasicSalary.getText().toString())
+                                        || TextUtils.isEmpty(etAllowances.getText().toString()) || TextUtils.isEmpty(etAResearchAllowancePercentage.getText().toString())
+                                        || TextUtils.isEmpty(etDeductionRate.getText().toString()) || TextUtils.isEmpty(etTaxRate.getText().toString()))
+                                {
+                                    Toast.makeText(AddMemberSalaryScaleActivity.this, "Please fill all the details", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    insertData();
+                                }
+                            }
+                        });
                     }
                 }
 
@@ -302,6 +343,7 @@ public class AddMemberSalaryScaleActivity extends AppCompatActivity {
                 }
             };
             userNameRef.addValueEventListener(eventListener);
+
         }
 
     }

@@ -3,7 +3,7 @@ package com.example.sepextremeg.activity;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static android.content.ContentValues.TAG;
-import static com.example.sepextremeg.Fragments.ProfileFragment.isEdit;
+import static com.example.sepextremeg.Fragments.ProfileFragment.isEditPublication;
 import static com.example.sepextremeg.activity.LoginActivity.AUTHENTICATION;
 import static com.example.sepextremeg.activity.LoginActivity.MY_SERVICE_NO;
 import static com.example.sepextremeg.activity.LoginActivity.My_ID;
@@ -26,6 +26,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
@@ -123,7 +124,7 @@ public class AddPublicationDetailsActivity extends AppCompatActivity {
             requestPermission();
         }
 
-        if (isEdit){
+        if (isEditPublication){
             System.out.println("2222");
             readData();
             addOrNextView.setVisibility(View.VISIBLE);
@@ -137,7 +138,15 @@ public class AddPublicationDetailsActivity extends AppCompatActivity {
                         addDetailsBtn.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                insertData();
+                                if (TextUtils.isEmpty(etPubTitle.getText().toString()) || TextUtils.isEmpty(etPubType.getText().toString())
+                                        || TextUtils.isEmpty(etAuthorName.getText().toString()) || TextUtils.isEmpty(etOrganisation.getText().toString())
+                                        || TextUtils.isEmpty(etOrganisation.getText().toString()) || TextUtils.isEmpty(etLanguage.getText().toString())
+                                        || TextUtils.isEmpty(etCityCountry.getText().toString()) || TextUtils.isEmpty(etYearPublished.getText().toString())
+                                        ) {
+                                    Toast.makeText(AddPublicationDetailsActivity.this, "Please fill all the details", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    insertData();
+                                }
                             }
                         });
                     }
@@ -149,7 +158,15 @@ public class AddPublicationDetailsActivity extends AppCompatActivity {
             addDetailsBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    insertData();
+                    if (TextUtils.isEmpty(etPubTitle.getText().toString()) || TextUtils.isEmpty(etPubType.getText().toString())
+                            || TextUtils.isEmpty(etAuthorName.getText().toString()) || TextUtils.isEmpty(etOrganisation.getText().toString())
+                            || TextUtils.isEmpty(etOrganisation.getText().toString()) || TextUtils.isEmpty(etLanguage.getText().toString())
+                            || TextUtils.isEmpty(etCityCountry.getText().toString()) || TextUtils.isEmpty(etYearPublished.getText().toString())
+                    ) {
+                        Toast.makeText(AddPublicationDetailsActivity.this, "Please fill all the details", Toast.LENGTH_SHORT).show();
+                    } else {
+                        insertData();
+                    }
                 }
             });
         }
@@ -302,7 +319,7 @@ public class AddPublicationDetailsActivity extends AppCompatActivity {
         addOrNextView.setVisibility(View.GONE);
         String value = "Edit Publication Details";
         addDetailsBtn.setText(value);
-        isEdit = true;
+        isEditPublication = true;
         updateIndex = position;
 
         etPubTitle.setText(bulkList.get(updateIndex).getPubTitle());

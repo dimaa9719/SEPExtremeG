@@ -1,7 +1,7 @@
 package com.example.sepextremeg.activity;
 
 import static android.content.ContentValues.TAG;
-import static com.example.sepextremeg.Fragments.ProfileFragment.isEdit;
+import static com.example.sepextremeg.Fragments.ProfileFragment.isEditQualification;
 import static com.example.sepextremeg.activity.LoginActivity.AUTHENTICATION;
 import static com.example.sepextremeg.activity.LoginActivity.My_ID;
 
@@ -139,7 +139,7 @@ public class AddQualificationDetailsActivity extends AppCompatActivity {
             }
         });
 
-        if (isEdit){
+        if (isEditQualification){
             readData();
             addOrNextView.setVisibility(View.VISIBLE);
             addDetailsView.setVisibility(View.GONE);
@@ -175,9 +175,12 @@ public class AddQualificationDetailsActivity extends AppCompatActivity {
     private void insertData(){
 
         qualificationsArrayList.clear();
-        if (qualificationType.equals("Select Type")){
+        if (TextUtils.isEmpty(etQualificationTitle.getText().toString())){
+            Toast.makeText(this, "Please enter qualification title", Toast.LENGTH_SHORT).show();
+        }
+        else if (qualificationType.equals("Select Type")){
             Toast.makeText(this, "Please select type", Toast.LENGTH_SHORT).show();
-        }else if (TextUtils.isEmpty(tvFileName.getText().toString())) {
+        }else if (tvFileName.getText().toString().equals("No file choose")) {
             Toast.makeText(AddQualificationDetailsActivity.this, "Please choose a file", Toast.LENGTH_SHORT).show();
         } else {
             qualifications.setQualificationTitle(String.valueOf(etQualificationTitle.getText()));
@@ -308,7 +311,7 @@ public class AddQualificationDetailsActivity extends AppCompatActivity {
         addOrNextView.setVisibility(View.GONE);
         String value = "Edit Qualification Details";
         addDetailsBtn.setText(value);
-        isEdit = true;
+        isEditQualification = true;
         updateIndex = position;
 
         etQualificationTitle.setText(bulkList.get(updateIndex).getQualificationTitle());

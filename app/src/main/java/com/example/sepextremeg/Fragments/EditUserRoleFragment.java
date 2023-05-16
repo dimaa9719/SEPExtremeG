@@ -30,7 +30,7 @@ import com.google.firebase.database.FirebaseDatabase;
 public class EditUserRoleFragment extends androidx.fragment.app.DialogFragment {
 
     Context mcontext;
-    String itemId;
+    String itemId, userName;
     Spinner spinner;
     Button btnUpdate;
 
@@ -39,10 +39,11 @@ public class EditUserRoleFragment extends androidx.fragment.app.DialogFragment {
     String[] roles = {"Select role", "Dean", "Head", "Senior Lecturer", "Lecturer", "Assistant Lecturer", "Instructor"};
     String userRole = "";
 
-    public EditUserRoleFragment(Context mContext, String id) {
+    public EditUserRoleFragment(Context mContext, String id, String userName) {
 
         this.mcontext = mContext;
         this.itemId = id;
+        this.userName = userName;
     }
 
     @Nullable
@@ -93,6 +94,7 @@ public class EditUserRoleFragment extends androidx.fragment.app.DialogFragment {
 
                                         Intent intent = new Intent(getContext(), AddMemberSalaryScaleActivity.class);
                                         intent.putExtra("MemId", itemId);
+                                        intent.putExtra("MemName", userName);
                                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                         startActivity(intent);
                                         requireActivity().finish();

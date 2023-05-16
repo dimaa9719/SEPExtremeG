@@ -381,16 +381,16 @@
                 android:padding="4dp">
 
                 <ImageView
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/sliit_logo" />
+                    android:src="@drawable/uni_logo" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="Sri Lanka Institute of Information Technology"
+                    android:text="Skyline University"
                     android:textColor="@color/black"
                     android:textSize="20sp"
                     android:textStyle="bold" />

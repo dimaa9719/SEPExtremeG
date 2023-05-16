@@ -1,7 +1,7 @@
 package com.example.sepextremeg.activity;
 
 import static android.content.ContentValues.TAG;
-import static com.example.sepextremeg.Fragments.ProfileFragment.isEdit;
+import static com.example.sepextremeg.Fragments.ProfileFragment.isEditProfile;
 import static com.example.sepextremeg.activity.LoginActivity.AUTHENTICATION;
 import static com.example.sepextremeg.activity.LoginActivity.My_ID;
 
@@ -27,6 +27,7 @@ import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -110,7 +111,7 @@ public class AddProfileDetailsActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences(AUTHENTICATION, MODE_PRIVATE);
         userID = sharedPreferences.getString(My_ID, "");
 
-       if (isEdit){
+       if (isEditProfile){
            readData();
            addDetailsBtn.setText("Update");
            btnCam.setVisibility(View.GONE);
@@ -126,7 +127,16 @@ public class AddProfileDetailsActivity extends AppCompatActivity {
            addDetailsBtn.setOnClickListener(new View.OnClickListener() {
                @Override
                public void onClick(View view) {
-                   insertData();
+                   if (TextUtils.isEmpty(etName.getText().toString()) || TextUtils.isEmpty(etDob.getText().toString())
+                           || TextUtils.isEmpty(etNic.getText().toString()) || TextUtils.isEmpty(etMobile.getText().toString())
+                           || TextUtils.isEmpty(etAddress.getText().toString()) || TextUtils.isEmpty(etHigherQualification.getText().toString())
+                           || TextUtils.isEmpty(etWorkExp.getText().toString()) || TextUtils.isEmpty(etFaculty.getText().toString())
+                           || TextUtils.isEmpty(etJobTitle.getText().toString())) {
+                       Toast.makeText(AddProfileDetailsActivity.this, "Please fill all the details", Toast.LENGTH_SHORT).show();
+                   } else {
+                       insertData();
+                   }
+
                }
            });
 

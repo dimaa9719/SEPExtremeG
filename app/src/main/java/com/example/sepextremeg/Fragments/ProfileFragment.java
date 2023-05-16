@@ -28,6 +28,7 @@ import androidx.fragment.app.Fragment;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.sepextremeg.R;
+import com.example.sepextremeg.SplashActivity;
 import com.example.sepextremeg.activity.AddProfileDetailsActivity;
 import com.example.sepextremeg.activity.AddPublicationDetailsActivity;
 import com.example.sepextremeg.activity.AddQualificationDetailsActivity;
@@ -61,6 +62,9 @@ public class ProfileFragment extends Fragment {
     LinearLayout llActions, llPasswordReset;
     EditText etNewPassword;
     public static boolean isEdit = false;
+    public static boolean isEditProfile = false;
+    public static boolean isEditPublication = false;
+    public static boolean isEditQualification = false;
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
 
@@ -256,12 +260,12 @@ public class ProfileFragment extends Fragment {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if(dataSnapshot.exists()) {
-                        isEdit = true;
+                        isEditProfile = true;
                         editProfileBtn.setText("Edit Profile Details");
 
                         viewOverallProfileBtn.setVisibility(View.VISIBLE);
                     } else {
-                        isEdit = false;
+                        isEditProfile = false;
                         editProfileBtn.setText("Add Profile Details");
                         viewOverallProfileBtn.setVisibility(View.GONE);
                     }
@@ -279,11 +283,11 @@ public class ProfileFragment extends Fragment {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if(dataSnapshot.exists()) {
-                        isEdit = true;
+                        isEditPublication = true;
                         System.out.println("111");
                         editPublicationsBtn.setText("Edit Publication Details");
                     } else {
-                        isEdit = false;
+                        isEditPublication = false;
                         editPublicationsBtn.setText("Add Publication Details");
                     }
                 }
@@ -300,10 +304,10 @@ public class ProfileFragment extends Fragment {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if(dataSnapshot.exists()) {
-                        isEdit = true;
+                        isEditQualification = true;
                         editQualificationBtn.setText("Edit Qualification Details");
                     } else {
-                        isEdit = false;
+                        isEditQualification = false;
                         editQualificationBtn.setText("Add Qualification Details");
                     }
                 }
@@ -320,8 +324,10 @@ public class ProfileFragment extends Fragment {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if(dataSnapshot.exists()) {
-                      viewSalaryDetailsBtn.setVisibility(View.VISIBLE);
+                        isEdit = true;
+                        viewSalaryDetailsBtn.setVisibility(View.VISIBLE);
                     } else {
+                        isEdit = false;
                         viewSalaryDetailsBtn.setVisibility(View.GONE);
                     }
                 }
@@ -340,7 +346,7 @@ public class ProfileFragment extends Fragment {
         // creating a variable for our Database
         // Reference for Firebase.
         DatabaseReference dbref= FirebaseDatabase.getInstance().getReference().child("AllUsers");
-        DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference().child("users");
+        DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference().child("users").child("Staff");
 
         DatabaseReference dbrefProfile= FirebaseDatabase.getInstance().getReference().child("profile");
         DatabaseReference dbrefQualification= FirebaseDatabase.getInstance().getReference().child("Qualifications");
@@ -446,6 +452,9 @@ public class ProfileFragment extends Fragment {
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
                             Log.d(TAG, "User account deleted successfully.");
+                            Intent intent = new Intent(getContext(), LoginActivity.class);
+                            startActivity(intent);
+
                         }
                     }
                 });

@@ -66,7 +66,7 @@ public class StaffMemberRecycleViewAdapter extends RecyclerView.Adapter<StaffMem
             @Override
             public void onClick(View view) {
                 Log.d("userrrid",list.get(position).getId());
-                EditUserRoleFragment dialogFragment=new EditUserRoleFragment(mContext, list.get(position).getId());
+                EditUserRoleFragment dialogFragment=new EditUserRoleFragment(mContext, list.get(position).getId(), list.get(position).getName());
                 dialogFragment.show(((AppCompatActivity)mContext).getSupportFragmentManager(), "My  Fragment");
             }
         });

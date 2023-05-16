@@ -378,7 +378,7 @@ public class StaffMemberActivity extends AppCompatActivity {
 
         String currentDate = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.getDefault()).format(new Date());
         String newDate = currentDate.replace("-", "_").replace(" ", "").replace(":", "_");
-        File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "MyPublication" + newDate + ".pdf");
+        File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), employeeName + "ProfileDetailsReport" + newDate + ".pdf");
 
         try {
             pdfDocument.writeTo(new FileOutputStream(file));

@@ -98,6 +98,7 @@ public class ViewMyInvoiceDetailsActivity extends AppCompatActivity {
         tvRefId.setText("Service No: " + employeeServiceNo);
         userID = sharedPreferences.getString(My_ID, "");
         System.out.println("user id - " + userID);
+        employeeName = sharedPreferences.getString(My_Name, "");
         tvEmployeeName.setText(sharedPreferences.getString(My_Name, ""));
 
         salaryScale = new SalaryScale();
@@ -233,7 +234,7 @@ public class ViewMyInvoiceDetailsActivity extends AppCompatActivity {
 
         String currentDate = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.getDefault()).format(new Date());
         String newDate = currentDate.replace("-", "_").replace(" ", "").replace(":", "_");
-        File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), getIntent().getStringExtra("MemName") + "PaySlip" + newDate + ".pdf");
+        File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), employeeName + "PaySlip" + newDate + ".pdf");
 
         try {
             pdfDocument.writeTo(new FileOutputStream(file));

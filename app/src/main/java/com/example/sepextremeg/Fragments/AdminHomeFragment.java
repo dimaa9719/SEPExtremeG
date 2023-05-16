@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sepextremeg.R;
+import com.example.sepextremeg.adapters.HomeHorizontalAdapter;
 import com.example.sepextremeg.adapters.HomeUsersGridAdapter;
 import com.example.sepextremeg.adapters.HomeVerticalAdapter;
 import com.example.sepextremeg.adapters.SearchStaffAdapter;
@@ -62,13 +63,13 @@ public class AdminHomeFragment extends Fragment {
 
         // assigning the Recyclerview to display all created classes
         search_results_recycle_view = mView.findViewById(R.id.search_results_recycle_view);
-        idGvUrses = mView.findViewById(R.id.idGvUrses);
-//        home_recycle_view = mView.findViewById(R.id.home_recycle_view);
+//        idGvUrses = mView.findViewById(R.id.idGvUrses);
+        home_recycle_view = mView.findViewById(R.id.home_recycle_view);
         search_results_recycle_view.setLayoutManager(new LinearLayoutManager(getContext()));
         search_results_recycle_view.hasFixedSize();
 
-//        home_recycle_view.setLayoutManager(new LinearLayoutManager(getContext()));
-//        home_recycle_view.hasFixedSize();
+        home_recycle_view.setLayoutManager(new LinearLayoutManager(getContext()));
+        home_recycle_view.hasFixedSize();
 
         //database path
         databaseReference = FirebaseDatabase.getInstance().getReference();
@@ -151,8 +152,13 @@ public class AdminHomeFragment extends Fragment {
                     }
 
                     if (getContext() != null) {
-                        HomeUsersGridAdapter adapter = new HomeUsersGridAdapter(getContext(), staffModelArrayList);
-                        idGvUrses.setAdapter(adapter);
+                        HomeHorizontalAdapter adapter = new HomeHorizontalAdapter(getContext(), staffModelArrayList);
+                        home_recycle_view.setHasFixedSize(true);
+                        home_recycle_view.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+                        home_recycle_view.setAdapter(adapter);
+
+//                        HomeUsersGridAdapter adapter = new HomeUsersGridAdapter(getContext(), staffModelArrayList);
+//                        idGvUrses.setAdapter(adapter);
                         System.out.println("pub size------- " + staffModelArrayList.size());
                     }
                 }

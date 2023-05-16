@@ -240,6 +240,7 @@ public class CreateUserActivity extends AppCompatActivity {
 
     private void clearTexts(){
         etUserName.setText("");
+        etServiceNo.setText("");
         etEmail.setText("");
         etPassword.setText("");
         etConPassword.setText("");
