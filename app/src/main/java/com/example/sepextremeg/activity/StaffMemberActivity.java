@@ -65,7 +65,7 @@ import java.util.Locale;
 public class StaffMemberActivity extends AppCompatActivity {
 
     private TextView tvName, tvContact, tvJAddress, tvEmail,
-            tvBio,tvContactNo, tvFaculty, tvPosition, tvAuthor, btnDownload, tvAddSalary;
+            tvUserId,tvContactNo, tvFaculty, tvPosition, tvAuthor, btnDownload, tvAddSalary;
     private RecyclerView rvQualifications, rvPublications, rvQualificationsPdf, rvPublicationsPdf;
     private ImageView img_provider, backBtn;
     private LinearLayout llViewMore, ll_pdf, llAddSalary;
@@ -105,6 +105,7 @@ public class StaffMemberActivity extends AppCompatActivity {
         rvPublicationsPdf = findViewById(R.id.rvPublicationsPdf);
         rvQualificationsPdf = findViewById(R.id.rvQualificationsPdf);
         btnDownload = findViewById(R.id.btnDownload);
+        tvUserId = findViewById(R.id.tvUserId);
         tvAuthor = findViewById(R.id.tvAuthor);
         tvPosition = findViewById(R.id.tvPosition);
         tvFaculty = findViewById(R.id.tvFaculty);
@@ -121,6 +122,7 @@ public class StaffMemberActivity extends AppCompatActivity {
         shimmerFrameLayout.startShimmer();
 
         userID = getIntent().getStringExtra("MemId");
+        tvUserId.setText("User ID: " + userID);
 
         employeeName = getIntent().getStringExtra("MemName");
         tvName.setText(getIntent().getStringExtra("MemName"));

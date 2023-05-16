@@ -65,7 +65,7 @@
                 android:id="@+id/addAnotherBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Add another publication"
+                android:text="Add another Qualification"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
