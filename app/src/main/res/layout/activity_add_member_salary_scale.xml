@@ -322,7 +322,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="Service No:20228911145589407"
+                    android:text="Service No:SU1000"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     android:textColor="@color/black"/>

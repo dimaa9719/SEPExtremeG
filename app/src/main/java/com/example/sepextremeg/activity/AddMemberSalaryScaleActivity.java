@@ -65,7 +65,7 @@ public class AddMemberSalaryScaleActivity extends AppCompatActivity {
     EditText etTaxRate,etDeductionRate, etAllowances,etAResearchAllowancePercentage, etBasicSalary,etSalaryCpde;
     Button addDetailsBtn, generatePaySlipBtn;
     ImageView backBtn;
-    TextView tvInvoiceId,tvTodayDate,tvEmployeeName,tvJobTitle,tvNetSalary,tvAllowance,tvRaPercentage,tvDeductionRate,
+    TextView tvInvoiceId,tvRefId, tvTodayDate,tvEmployeeName,tvJobTitle,tvNetSalary,tvAllowance,tvRaPercentage,tvDeductionRate,
             tvTaxRate;
 
     private SharedPreferences sharedPreferences;
@@ -96,6 +96,7 @@ public class AddMemberSalaryScaleActivity extends AppCompatActivity {
         //invoice layout views
         ll_invoice_pdf = findViewById(R.id.ll_invoice_pdf);
         tvInvoiceId = findViewById(R.id.tvInvoiceId);
+        tvRefId = findViewById(R.id.tvRefId);
         tvTodayDate = findViewById(R.id.tvTodayDate);
         tvEmployeeName = findViewById(R.id.tvEmployeeName);
         tvJobTitle = findViewById(R.id.tvJobTitle);
@@ -108,6 +109,10 @@ public class AddMemberSalaryScaleActivity extends AppCompatActivity {
 
         userID = getIntent().getStringExtra("MemId");
         tvEmployeeName.setText(getIntent().getStringExtra("MemName"));
+        tvRefId.setText("Service No: " + getIntent().getStringExtra("MemEmail"));
+
+        String currentDateTimeString = java.text.DateFormat.getDateTimeInstance().format(new Date());
+        tvTodayDate.setText("Create At: " + currentDateTimeString);
 
         salaryScale = new SalaryScale();
         salaryScaleArrayList = new ArrayList<>();
@@ -301,7 +306,7 @@ public class AddMemberSalaryScaleActivity extends AppCompatActivity {
                         etTaxRate.setText(salaryScale.getTaxRate());
 
                         //set data to payslip
-                        tvInvoiceId.setText(salaryScale.getSalaryCode());
+                        tvInvoiceId.setText("Salary Code: " + salaryScale.getSalaryCode());
                         tvNetSalary.setText(salaryScale.getBasicSalary());
                         tvAllowance.setText(salaryScale.getResearchAllowancePercentage());
                         tvRaPercentage.setText(salaryScale.getAllowances());
@@ -349,9 +354,6 @@ public class AddMemberSalaryScaleActivity extends AppCompatActivity {
     }
 
     public void generatePaySlip(){
-
-        String currentDateTimeString = java.text.DateFormat.getDateTimeInstance().format(new Date());
-        tvTodayDate.setText("Create At: " + currentDateTimeString);
 
         bitmap = loadBitmap(ll_invoice_pdf, ll_invoice_pdf.getWidth(), ll_invoice_pdf.getHeight());
         createPdf();

@@ -64,8 +64,8 @@ import java.util.Locale;
 
 public class StaffMemberActivity extends AppCompatActivity {
 
-    private TextView tvName, tvContact, tvJAddress, tvEmail,
-            tvUserId,tvContactNo, tvFaculty, tvPosition, tvAuthor, btnDownload, tvAddSalary;
+    private TextView tvName, tvContact, tvJAddress, tvEmail, tvRefId,
+            tvTodayDate,tvContactNo, tvFaculty, tvPosition, tvAuthor, btnDownload, tvAddSalary;
     private RecyclerView rvQualifications, rvPublications, rvQualificationsPdf, rvPublicationsPdf;
     private ImageView img_provider, backBtn;
     private LinearLayout llViewMore, ll_pdf, llAddSalary;
@@ -105,7 +105,8 @@ public class StaffMemberActivity extends AppCompatActivity {
         rvPublicationsPdf = findViewById(R.id.rvPublicationsPdf);
         rvQualificationsPdf = findViewById(R.id.rvQualificationsPdf);
         btnDownload = findViewById(R.id.btnDownload);
-        tvUserId = findViewById(R.id.tvUserId);
+        tvTodayDate = findViewById(R.id.tvTodayDate);
+        tvRefId = findViewById(R.id.tvRefId);
         tvAuthor = findViewById(R.id.tvAuthor);
         tvPosition = findViewById(R.id.tvPosition);
         tvFaculty = findViewById(R.id.tvFaculty);
@@ -122,10 +123,13 @@ public class StaffMemberActivity extends AppCompatActivity {
         shimmerFrameLayout.startShimmer();
 
         userID = getIntent().getStringExtra("MemId");
-        tvUserId.setText("User ID: " + userID);
+//        tvUserId.setText("User ID: " + userID);
 
         employeeName = getIntent().getStringExtra("MemName");
         tvName.setText(getIntent().getStringExtra("MemName"));
+
+        String currentDateTimeString = java.text.DateFormat.getDateTimeInstance().format(new Date());
+        tvTodayDate.setText("Create At: " + currentDateTimeString);
 
         if(getIntent().getStringExtra("MemImage") !=null) {
             Picasso.get().load(getIntent().getStringExtra("MemImage")).into(img_provider);
@@ -249,6 +253,7 @@ public class StaffMemberActivity extends AppCompatActivity {
                        StaffModel staffModel = dataSnapshot.getValue(StaffModel.class);
                        assert staffModel != null;
                        empServiceNo = staffModel.getServiceNo();
+                       tvRefId.setText("Service No: " + empServiceNo);
                        tvEmail.setText("Service No: " + staffModel.getServiceNo());
                    }
                 }
